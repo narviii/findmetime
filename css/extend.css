@@ -1,0 +1,38 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer utilities {
+    .scroll-snap-none {
+      scroll-snap-type: none;
+    }
+    .scroll-snap-x {
+      scroll-snap-type: x;
+    }
+    .scroll-snap-y {
+      scroll-snap-type: y;
+    }
+    .no-scrollbar::-webkit-scrollbar {
+        display:none;
+       
+    }
+    .disable-select {
+      -webkit-user-select: none;  
+      -moz-user-select: none;    
+      -ms-user-select: none;      
+      user-select: none;
+    }
+    .bracket-left{
+      display:inline;
+      position:absolute;
+      top: 0px; 
+      left: 0%;
+      
+    }
+    .bracket-right{
+      display:inline;
+      position:absolute;
+      right:0%;
+      transform: scale(-1,1) 
+    }
+  }
