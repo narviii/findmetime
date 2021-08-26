@@ -25,14 +25,16 @@
     .bracket-left{
       display:inline;
       position:absolute;
-      top: 0px; 
-      left: 0%;
+      transform:scale(1.2,1.2)
       
     }
     .bracket-right{
       display:inline;
       position:absolute;
-      right:0%;
-      transform: scale(-1,1) 
+      
+      transform: scale(-1.2,1.2) 
+    }
+    .overflow-block-clip{
+      overflow-x:clip;
     }
   }
