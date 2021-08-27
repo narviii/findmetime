@@ -104,6 +104,8 @@ const countOffscreenAdder = (state) => ({
   }
 })
 
+
+
 export const createTimeline = (name) => {
   const state = [];
   return {
@@ -112,7 +114,7 @@ export const createTimeline = (name) => {
     ...futureHourAdder(state),
     ...pastHourAdder(state),
     ...timelineIndexAdder(state),
-    ...countOffscreenAdder(state)
+    ...countOffscreenAdder(state),
   };
 };
 
