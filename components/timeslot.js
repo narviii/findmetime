@@ -7,7 +7,7 @@ import React from "react";
 
 const buttonStyle = (label) => {
     const isCentral = (label) => label === moment().hour()
-    const btnClassTempl = "left-1/2  disable-select transition-all   absolute  text-center h-10 leading-10  rounded-sm m-1  "
+    const btnClassTempl = "left-1/2  disable-select    absolute  text-center h-10 leading-10  rounded-sm  "
     let btnClass
     if (isCentral(label)) {
         btnClass = btnClassTempl + "bg-gray-100"
