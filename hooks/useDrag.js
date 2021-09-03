@@ -1,6 +1,8 @@
 import { useState,useEffect } from "react"
 
 export const useDrag = (control,id) => {
+
+    ///test comment
     const [state, setState] = useState({
         isDraging: false,
         origin: { x: 0, y: 0 },
