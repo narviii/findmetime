@@ -11,7 +11,7 @@ export function Handle({ control }) {
     return (
         <div>
             <div onMouseDown={handleMouseDown} className="bg-red-900 cursor-pointer  h-12 mx-auto w-32 block text-center leading-10 disable-select">
-                DRAG ME
+                DRAG ME PLEASE
             </div>
         </div>
 
