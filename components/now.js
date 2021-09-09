@@ -1,13 +1,15 @@
-import { getBorderTimes } from "../helpers/timeBorderHelper"
-import { getSelectorPosition } from "../helpers/selectorPosition"
+import { getPosition } from '../helpers/getPosition'
 import moment from "moment"
 
-export function Now({timeLineState,timeLineView}) {
-    
-    const borderTimes = getBorderTimes(timeLineState,timeLineView)
-    const { left, width } = getSelectorPosition({start:moment().subtract(1,"minutes"),end:moment().add(1,"minutes")},borderTimes, timeLineView)
+export function Now({ timeLine }) {
+
+    const leftPosition = getPosition(moment().subtract(1, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const rightPosition = getPosition(moment().add(1, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const width = rightPosition - leftPosition
+
+
     return (
-        <div style={{left:left,width:width}} className="left-1/2 disable-select  w-1  absolute  text-center h-10 leading-10  rounded-sm z-50 bg-red-900   ">
+        <div style={{ left: leftPosition, width: width }} className=" disable-select  w-1  absolute  text-center h-10 leading-10  rounded-sm z-50 bg-green-900   ">
 
         </div>
     )
