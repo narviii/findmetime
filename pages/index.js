@@ -1,65 +1,47 @@
 import Head from 'next/head'
-import React, { createContext, useContext, useEffect, useState, useRef, useReducer } from 'react'
-import moment from "moment";
-import { Now } from '../components/now';
-import { Handle, SelectElement } from '../components/handle'
-import { DrawMarks } from '../components/drawMarks'
-import { db } from '../helpers/firebase'
-import { doc, setDoc, onSnapshot } from "firebase/firestore";
-import { useDocumentData } from '../hooks/useDocument';
-import { selectionReducer } from '../helpers/selectionReducer';
+import React from 'react'
 import { Background } from '/components/background';
+import { useRouter } from 'next/router'
+import { db } from '/helpers/firebase'
+import { doc, setDoc, addDoc, collection } from "firebase/firestore";
+import { getAuth, signInAnonymously } from "firebase/auth";
+
 
 
 export default function Home() {
-  const timelineContainerRef = useRef(0)
-  const [timeLine, setTimeLine] = useReducer(
-    selectionReducer,
-    {
-      isSelected: {
-        start: moment().subtract(1, "hours"),
-        end: moment().add(1, "hours")
-      },
+  const router = useRouter()
+  const handleClick = async (e) => {
+    const session = await addDoc(collection(db, "sessions"), {});
 
-      start: moment().subtract(3, "hours"),
-      end: moment().add(3, "hours"),
-      pixelWidth: 0
+    await setDoc(doc(db, session.path, "users", auth.currentUser.uid), {
+      start: 'start',
+      end: 'end'
+    });
+    console.log(session)
+    router.push({
+      pathname: 'session',
+      query: { id: session.id },
+    })
+  }
+  const auth = getAuth();
 
+  signInAnonymously(auth)
+    .then(() => {
 
     })
-
-
-
-  useEffect(() => {
-    setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-    window.addEventListener('resize', function () {
-      setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-    });
-  }, [])
-
-
-  useEffect(async () => {
-    await setDoc(doc(db, "sessions", "default"), {
-      start: timeLine.isSelected.start.clone().utc().format(),
-      end: timeLine.isSelected.end.clone().utc().format(),
+    .catch((error) => {
+      const errorCode = error.code;
+      const errorMessage = error.message;
 
     });
-
-  }, [timeLine.isSelected])
-
-
-  const data = useDocumentData(doc(db, "sessions", "default"))
-
+    
   return (
     <React.Fragment>
       <Background>
-        <div ref={timelineContainerRef} className="relative overflow-block-clip mt-1 ">
-          <div className="h-12">
-            <SelectElement control={setTimeLine} timeLine={timeLine} />
-            <Now timeLine={timeLine} />
-            <DrawMarks timeLine={timeLine} />
-          </div>
-          <Handle control={setTimeLine} timeLine={timeLine} />
+        <div className="flex flex-col justify-center h-full ">
+          <button onClick={handleClick} className="bg-green-300 hover:bg-green-100 p-3 cursor-pointer   mx-auto block text-center  ">
+            Start new session
+          </button>
         </div>
       </Background>
     </React.Fragment>

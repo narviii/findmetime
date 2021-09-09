@@ -1,11 +1,13 @@
 import React from 'react'
 import moment from 'moment'
 import { getPosition } from '../helpers/getPosition'
+import { Now } from '/components/now';
 
 
 
 
-export function DrawMark({mark,timeLine }) {
+
+export function DrawMark({ mark, timeLine }) {
 
     const leftPosition = getPosition(mark.start.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const rightPosition = getPosition(mark.end.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
@@ -21,28 +23,30 @@ export function DrawMark({mark,timeLine }) {
 
 
 export function DrawMarks({ timeLine }) {
-    const start = timeLine.start.clone().subtract(1,"hours")
-    const end = timeLine.end.clone().add(1,"hours")
-    let  marks = []
-    
+    const start = timeLine.start.clone().subtract(1, "hours")
+    const end = timeLine.end.clone().add(1, "hours")
+    let marks = []
+
     do {
-       marks.push({
-           start:start.clone().startOf("hour"),
-           end:start.clone().endOf("hour")
-       })
-       
-        start.add(1,"hours")
+        marks.push({
+            start: start.clone().startOf("hour"),
+            end: start.clone().endOf("hour")
+        })
+
+        start.add(1, "hours")
 
 
-    } while (moment.duration(end.clone().subtract(start.clone())).asHours()>0)
+    } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
 
-    
-    const marksEl = marks.map((item) => <DrawMark timeLine={timeLine} mark = {item}/>)
-    
+
+    const marksEl = marks.map((item) => <DrawMark timeLine={timeLine} mark={item} />)
+
 
     return (
         <React.Fragment>
             {marksEl}
+            <Now timeLine={timeLine} />
+
         </React.Fragment>
     )
 }
