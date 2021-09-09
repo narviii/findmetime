@@ -4,6 +4,17 @@ import { getTimeFromOffset } from '../helpers/getTimeOffset';
 export function selectionReducer(state, action) {
     const timeOffset = getTimeFromOffset(action.offset, state.start, state.end, state.pixelWidth)
     const scaleFactor = (action.offsetY || 0) / 30
+    /*
+    if (action.type === 'set_controled'){
+      return {
+        ...state,
+        isSelected:{
+          start:action.payload.start,
+          end:action.payload.end
+        }
+      }
+    }
+    */
     if (action.type === "isDragging" && action.id != "translateTimeline") return {
       ...state,
       isSelected: {
@@ -23,6 +34,8 @@ export function selectionReducer(state, action) {
     if (action.type === 'set_width') {
       return { ...state, pixelWidth: action.width }
     }
+
+    
 
 
 

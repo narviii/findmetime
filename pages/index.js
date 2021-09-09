@@ -17,7 +17,6 @@ export default function Home() {
       start: 'start',
       end: 'end'
     });
-    console.log(session)
     router.push({
       pathname: 'session',
       query: { id: session.id },
@@ -25,16 +24,8 @@ export default function Home() {
   }
   const auth = getAuth();
 
-  signInAnonymously(auth)
-    .then(() => {
+  
 
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-
-    });
-    
   return (
     <React.Fragment>
       <Background>

@@ -8,6 +8,7 @@ export const useDocumentData = (docref) => {
     const [data, setData] = useState()
 
     useEffect(() => {
+        
         const unsub = onSnapshot(docref, (doc) => {
             setData({
                 start:moment(doc.data().start),
