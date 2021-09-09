@@ -1,16 +1,38 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import moment from "moment";
-import { Now } from '/components/now';
 import { Handle, SelectElement } from '/components/handle'
 import { DrawMarks } from '/components/drawMarks'
 import { db } from '/helpers/firebase'
 import { doc, setDoc } from "firebase/firestore";
-import { useDocumentData } from '/hooks/useDocument';
 import { selectionReducer } from '/helpers/selectionReducer';
 import { Background } from '/components/background';
+import { useRouter } from 'next/router'
+import { getAuth, signInAnonymously } from "firebase/auth";
+import { useAuth } from '/hooks/useAuth'
+import { useSessionUsers } from '/hooks/useSessionUsers';
 
 
 export default function Home() {
+    const auth = getAuth();
+    const router = useRouter()
+    const user = useAuth()
+    const sessionUsers = useSessionUsers(router.query.id)
+
+    if (user) {
+        console.log(`My UID: ${user.uid}`)
+    }
+
+
+    signInAnonymously(auth)
+        .then(() => {
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+        });
+
+
+
     const timelineContainerRef = useRef(0)
     const [timeLine, setTimeLine] = useReducer(
         selectionReducer,
@@ -38,16 +60,21 @@ export default function Home() {
 
 
     useEffect(async () => {
-        await setDoc(doc(db, "sessions", "default"), {
-            start: timeLine.isSelected.start.clone().utc().format(),
-            end: timeLine.isSelected.end.clone().utc().format(),
+        if (auth.currentUser) {
+            await setDoc(doc(db, "sessions", router.query.id, "users", auth.currentUser.uid), {
+                start: timeLine.isSelected.start.clone().utc().format(),
+                end: timeLine.isSelected.end.clone().utc().format(),
 
-        });
+            });
+        }
+    }, [timeLine.isSelected, user])
 
-    }, [timeLine.isSelected])
 
 
-    const data = useDocumentData(doc(db, "sessions", "default"))
+
+
+
+
 
     return (
         <React.Fragment>
@@ -55,7 +82,6 @@ export default function Home() {
                 <div ref={timelineContainerRef} className="relative overflow-block-clip mt-1 ">
                     <div className="h-12">
                         <SelectElement control={setTimeLine} timeLine={timeLine} />
-                        <Now timeLine={timeLine} />
                         <DrawMarks timeLine={timeLine} />
                     </div>
                     <Handle control={setTimeLine} timeLine={timeLine} />
@@ -63,4 +89,11 @@ export default function Home() {
             </Background>
         </React.Fragment>
     )
+}
+
+
+export async function getServerSideProps(context) {
+    return {
+        props: {}, // will be passed to the page component as props
+    }
 }
