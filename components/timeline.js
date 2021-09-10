@@ -25,18 +25,12 @@ export function TimeLinePassive({ isSelectedStart, isSelectedEnd,timeLine }) {
 }
 
 
-export function TimelineActive({ timeLine }) {
+export function TimelineActive({isSelected,setSelected, timeLine }) {
     const auth = getAuth();
     const router = useRouter()
     const user = useAuth()
 
-    const [isSelected, setSelected] = useReducer(
-        selectionReducer,
-        {
-            start: moment().subtract(1, "hours"),
-            end: moment().add(1, "hours")
-        },
-    )
+    
 
     useEffect(async () => {
         if (auth.currentUser) {
