@@ -39,7 +39,7 @@ export function DrawMarks({ timeLine }) {
     } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
 
 
-    const marksEl = marks.map((item) => <DrawMark timeLine={timeLine} mark={item} />)
+    const marksEl = marks.map((item) => <DrawMark key={Math.random().toString(36).substr(2, 5)} timeLine={timeLine} mark={item} />)
 
 
     return (

@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import { Background } from '/components/background';
 import { useRouter } from 'next/router'
-import { db } from '/helpers/firebase'
+import { dbFireStore } from '/helpers/firebase'
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { getAuth, signInAnonymously } from "firebase/auth";
 
@@ -11,9 +11,9 @@ import { getAuth, signInAnonymously } from "firebase/auth";
 export default function Home() {
   const router = useRouter()
   const handleClick = async (e) => {
-    const session = await addDoc(collection(db, "sessions"), {});
+    const session = await addDoc(collection(dbFireStore, "sessions"), {});
 
-    await setDoc(doc(db, session.path, "users", auth.currentUser.uid), {
+    await setDoc(doc(dbFireStore, session.path, "users", auth.currentUser.uid), {
       start: 'start',
       end: 'end'
     });

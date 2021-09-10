@@ -4,9 +4,9 @@ import { getPosition } from '../helpers/getPosition'
 
 const handleStyle = " cursor-pointer bg-red-900 h-10 opacity-50  w-2 absolute text-center z-30 leading-10 disable-select"
 
-export function Handle({ control,timeLine}) {
+export function Handle({ control, timeLine }) {
 
-    const handleMouseDown = useDrag(control,"translateTimeline")
+    const handleMouseDown = useDrag(control, "translateTimeline")
 
     return (
         <div>
@@ -19,21 +19,34 @@ export function Handle({ control,timeLine}) {
 }
 
 
-export function SelectElement({ control,timeLine}) {
+export function SelectElement({ control, timeLine }) {
 
-    const handleMouseLeft = useDrag(control,"left")
-    const handleMouseCenter = useDrag(control,"center")
-    const handleMouseRight = useDrag(control,"right")
+    const handleMouseLeft = useDrag(control, "left")
+    const handleMouseCenter = useDrag(control, "center")
+    const handleMouseRight = useDrag(control, "right")
 
-    const leftPosition = getPosition(timeLine.isSelected.start, timeLine.start,timeLine.end,timeLine.pixelWidth)
-    const rightPosition = getPosition(timeLine.isSelected.end, timeLine.start,timeLine.end,timeLine.pixelWidth)
+    const leftPosition = getPosition(timeLine.isSelected.start, timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const rightPosition = getPosition(timeLine.isSelected.end, timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     return (
         <React.Fragment>
-            <div style={{ left: leftPosition, width:10,opacity:100,zIndex:100 }} onMouseDown={handleMouseLeft} className={handleStyle} />
+            <div style={{ left: leftPosition, width: 10, opacity: 100, zIndex: 100 }} onMouseDown={handleMouseLeft} className={handleStyle} />
             <div style={{ left: leftPosition, width: width }} onMouseDown={handleMouseCenter} className={handleStyle} />
-            <div style={{ right: timeLine.pixelWidth-rightPosition, width: 10,opacity:100,zIndex:100 }} onMouseDown={handleMouseRight} className={handleStyle} />
+            <div style={{ right: timeLine.pixelWidth - rightPosition, width: 10, opacity: 100, zIndex: 100 }} onMouseDown={handleMouseRight} className={handleStyle} />
         </React.Fragment>
     )
+}
+
+export function ShowSelection({ isSelectedStart, isSelectedEnd, timeLine }) {
+    const leftPosition = getPosition(isSelectedStart, timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const rightPosition = getPosition(isSelectedEnd, timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const width = rightPosition - leftPosition
+    return (
+        <React.Fragment>
+            <div style={{ left: leftPosition, width: width }} className={handleStyle} />
+        </React.Fragment>
+    )
+
+
 }
 
