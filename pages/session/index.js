@@ -1,40 +1,74 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import moment from "moment";
-import { Handle, SelectElement } from '/components/handle'
-import { DrawMarks } from '/components/drawMarks'
-import { db } from '/helpers/firebase'
-import { doc, setDoc } from "firebase/firestore";
-import { selectionReducer } from '/helpers/selectionReducer';
+import { extendMoment } from 'moment-range';
 import { Background } from '/components/background';
 import { useRouter } from 'next/router'
 import { getAuth, signInAnonymously } from "firebase/auth";
 import { useAuth } from '/hooks/useAuth'
 import { useSessionUsers } from '/hooks/useSessionUsers';
-import { Timeline } from '/components/Timeline'
+import { TimelineActive, TimeLinePassive } from '../../components/timeline';
+import { timeLineReducer } from '/helpers/selectionReducer';
+import { Handle, SelectElement } from '/components/handle'
+import { selectionReducer } from '/helpers/selectionReducer';
+
 
 
 export default function Home() {
-
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
     const user = useAuth()
+    const timelineContainerRef = useRef(0)
+    
+
+
+
+    const [timeLine, setTimeLine] = useReducer(
+        timeLineReducer,
+        {
+            start: moment().subtract(3, "hours"),
+            end: moment().add(3, "hours"),
+            pixelWidth: 0
+        })
+
+    const [isSelected, setSelected] = useReducer(
+        selectionReducer,
+        {
+            start: moment().subtract(1, "hours"),
+            end: moment().add(1, "hours")
+        },
+    )
+
+    useEffect(() => {
+        setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
+        window.addEventListener('resize', function () {
+            setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
+        });
+    }, [])
+
+
 
     let passiveTimelines
+    if (sessionUsers && user) {
+        const usersList = Object.keys(sessionUsers)
+        passiveTimelines = usersList.map((item) => {
+            if (item != user.uid) {
+                return (
+                    <TimeLinePassive timeLine={timeLine} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                )
+            }
 
-    if (sessionUsers) {
-        passiveTimelines = sessionUsers.map((item) => {
-
-            return (
-                <Timeline docId={item} isActive={false} />
-            )
         })
     }
+
 
     return (
         <React.Fragment>
             <Background>
-                <Timeline isActive={true} />
-                {passiveTimelines}
+                <div ref={timelineContainerRef} className="bg-gray-100 h-2/5 w-10/12 mx-auto block rounded-lg ">
+                    <TimelineActive isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
+                    {passiveTimelines}
+                </div>
+                <Handle control={setTimeLine} timeLine={timeLine} />
             </Background>
         </React.Fragment>
     )

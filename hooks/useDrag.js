@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react"
 
-export const useDrag = (control, id) => {
+export const useDrag = (control, id, timeline) => {
 
     ///test comment
     const [state, setState] = useState({
@@ -33,15 +33,21 @@ export const useDrag = (control, id) => {
             control({
                 type: "translate",
                 offset: translation.x,
-                offsetX:translation.x,
-                offsetY:translation.y,
-                id: id
+                offsetX: translation.x,
+                offsetY: translation.y,
+                id: id,
+                timeline:timeline
             })
         }
     }
 
     const handleMouseDown = ({ clientX, clientY }) => {
-        control({ type: "isDragging", id: id, offset: 0 })
+        control({
+            type: "isDragging",
+            id: id,
+            offset: 0,
+            timeline:timeline
+        })
         setState(prevState => ({
             ...state,
             isDraging: true,
