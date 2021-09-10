@@ -11,99 +11,51 @@ import { db } from '../helpers/firebase';
 import { ShowSelection } from '/components/handle';
 
 
-export function TimeLinePassive({isSelectedStart,isSelectedEnd}) {
-    const timelineContainerRef = useRef(0)
-    const [timeLine, setTimeLine] = useReducer(
-        selectionReducer,
-        {
-            isSelected: {
-                start: moment().subtract(1, "hours"),
-                end: moment().add(1, "hours")
-            },
-
-            start: moment().subtract(3, "hours"),
-            end: moment().add(3, "hours"),
-            pixelWidth: 0
-
-
-        })
-
-    useEffect(() => {
-        setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-        window.addEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-        });
-    }, [])
-
+export function TimeLinePassive({ isSelectedStart, isSelectedEnd,timeLine }) {
+    
     return (
-        <div ref={timelineContainerRef} className="relative overflow-block-clip mt-1 ">
+        <div  className="relative overflow-block-clip mt-1 ">
             <div className="h-12">
                 <DrawMarks timeLine={timeLine} />
                 <ShowSelection isSelectedStart={isSelectedStart} isSelectedEnd={isSelectedEnd} timeLine={timeLine} />
             </div>
-            <Handle control={setTimeLine} timeLine={timeLine} />
+
         </div>
     )
 }
 
 
-export function TimelineActive() {
+export function TimelineActive({ timeLine }) {
     const auth = getAuth();
     const router = useRouter()
     const user = useAuth()
-    const timelineContainerRef = useRef(0)
-    const [timeLine, setTimeLine] = useReducer(
+
+    const [isSelected, setSelected] = useReducer(
         selectionReducer,
         {
-            isSelected: {
-                start: moment().subtract(1, "hours"),
-                end: moment().add(1, "hours")
-            },
-
-            start: moment().subtract(3, "hours"),
-            end: moment().add(3, "hours"),
-            pixelWidth: 0
-
-
-        })
-
-
-
-
-    useEffect(() => {
-        setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-        window.addEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
-        });
-    }, [])
-
+            start: moment().subtract(1, "hours"),
+            end: moment().add(1, "hours")
+        },
+    )
 
     useEffect(async () => {
-
         if (auth.currentUser) {
-
             set(ref(db, "sessions/" + router.query.id + "/users/" + auth.currentUser.uid), {
-                start: timeLine.isSelected.start.clone().utc().format(),
-                end: timeLine.isSelected.end.clone().utc().format(),
+                start: isSelected.start.clone().utc().format(),
+                end: isSelected.end.clone().utc().format(),
 
             });
-            /*
-            await setDoc(doc(db, "sessions", router.query.id, "users", auth.currentUser.uid), {
-                start: timeLine.isSelected.start.clone().utc().format(),
-                end: timeLine.isSelected.end.clone().utc().format(),
-
-            });
-            */
+            
         }
-    }, [timeLine.isSelected, user])
+    }, [isSelected, user])
+    
 
     return (
-        <div ref={timelineContainerRef} className="relative overflow-block-clip mt-1 ">
+        <div className="relative overflow-block-clip mt-1 ">
             <div className="h-12">
-                <SelectElement control={setTimeLine} timeLine={timeLine} />
                 <DrawMarks timeLine={timeLine} />
+                <SelectElement control = {setSelected} isSelected={isSelected} timeLine={timeLine}/>
             </div>
-            <Handle control={setTimeLine} timeLine={timeLine} />
         </div>
     )
 }

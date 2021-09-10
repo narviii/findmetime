@@ -19,14 +19,14 @@ export function Handle({ control, timeLine }) {
 }
 
 
-export function SelectElement({ control, timeLine }) {
+export function SelectElement({isSelected, control, timeLine }) {
 
-    const handleMouseLeft = useDrag(control, "left")
-    const handleMouseCenter = useDrag(control, "center")
-    const handleMouseRight = useDrag(control, "right")
+    const handleMouseLeft = useDrag(control, "left",timeLine)
+    const handleMouseCenter = useDrag(control, "center",timeLine)
+    const handleMouseRight = useDrag(control, "right",timeLine)
 
-    const leftPosition = getPosition(timeLine.isSelected.start, timeLine.start, timeLine.end, timeLine.pixelWidth)
-    const rightPosition = getPosition(timeLine.isSelected.end, timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const leftPosition = getPosition(isSelected.start, timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const rightPosition = getPosition(isSelected.end, timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     return (
         <React.Fragment>
