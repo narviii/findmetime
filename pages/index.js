@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import React from 'react'
-import { Background } from '/components/background';
+import { Background } from '../components/background';
 import { useRouter } from 'next/router'
-import { dbFireStore } from '/helpers/firebase'
+import { dbFireStore } from '../helpers/firebase'
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
-import { getAuth, signInAnonymously } from "firebase/auth";
+import { getAuth} from "firebase/auth";
 
 
 

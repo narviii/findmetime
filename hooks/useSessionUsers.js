@@ -1,8 +1,7 @@
-import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react";
-import { db } from '/helpers/firebase'
-import { useAuth } from '/hooks/useAuth'
-import { getDatabase, ref, onValue } from "firebase/database";
+import { db } from '../helpers/firebase'
+import { useAuth } from '../hooks/useAuth'
+import { ref, onValue } from "firebase/database";
 
 
 export function useSessionUsers(sessionId) {

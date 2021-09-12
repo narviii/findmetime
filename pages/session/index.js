@@ -1,15 +1,13 @@
 import React, { useEffect, useRef, useReducer } from 'react'
 import moment from "moment";
-import { extendMoment } from 'moment-range';
-import { Background } from '/components/background';
+import { Background } from '../../components/background';
 import { useRouter } from 'next/router'
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { useAuth } from '/hooks/useAuth'
-import { useSessionUsers } from '/hooks/useSessionUsers';
+import { useAuth } from '../../hooks/useAuth'
+import { useSessionUsers } from '../../hooks/useSessionUsers';
 import { TimelineActive, TimeLinePassive } from '../../components/timeline';
-import { timeLineReducer } from '/helpers/selectionReducer';
-import { Handle, SelectElement } from '/components/handle'
-import { selectionReducer } from '/helpers/selectionReducer';
+import { timeLineReducer } from '../../helpers/selectionReducer';
+import { Handle} from '../../components/handle'
+import { selectionReducer } from '../../helpers/selectionReducer';
 
 
 

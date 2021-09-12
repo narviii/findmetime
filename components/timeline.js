@@ -1,14 +1,12 @@
-import React, { useEffect, useRef, useReducer, Children } from 'react'
-import moment from "moment";
-import { Handle, SelectElement } from '/components/handle'
-import { DrawMarks } from '/components/drawMarks'
-import { selectionReducer } from '/helpers/selectionReducer';
+import React, { useEffect} from 'react'
+import {SelectElement,ShowSelection } from './handle'
+import { DrawMarks } from './drawMarks'
 import { useRouter } from 'next/router'
-import { getAuth, signInAnonymously } from "firebase/auth";
-import { useAuth } from '/hooks/useAuth'
-import { getDatabase, ref, set } from "firebase/database"
+import { getAuth } from "firebase/auth";
+import { useAuth } from '../hooks/useAuth'
+import {ref, set } from "firebase/database"
 import { db } from '../helpers/firebase';
-import { ShowSelection } from '/components/handle';
+
 
 
 export function TimeLinePassive({ isSelectedStart, isSelectedEnd,timeLine }) {

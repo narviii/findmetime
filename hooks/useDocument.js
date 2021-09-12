@@ -1,4 +1,4 @@
-import { doc, setDoc, onSnapshot } from "firebase/firestore";
+import { onSnapshot } from "firebase/firestore";
 import { useState, useEffect } from "react"
 import moment from 'moment'
 
