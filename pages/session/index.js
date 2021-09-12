@@ -6,8 +6,12 @@ import { useAuth } from '../../hooks/useAuth'
 import { useSessionUsers } from '../../hooks/useSessionUsers';
 import { TimelineActive, TimeLinePassive } from '../../components/timeline';
 import { timeLineReducer } from '../../helpers/selectionReducer';
-import { Handle} from '../../components/handle'
+import { Handle } from '../../components/handle'
 import { selectionReducer } from '../../helpers/selectionReducer';
+import { removeItemOnce } from '../../helpers/removeItemOnce';
+import { UserName } from '../../components/username';
+
+export const timeLineClass = "h-12 m-1 relative overflow-block-clip"
 
 
 
@@ -16,7 +20,7 @@ export default function Home() {
     const sessionUsers = useSessionUsers(router.query.id)
     const user = useAuth()
     const timelineContainerRef = useRef(0)
-    
+
 
 
 
@@ -43,11 +47,26 @@ export default function Home() {
         });
     }, [])
 
+    
 
 
     let passiveTimelines
+    let sessionUserNames
+
+    
+
     if (sessionUsers && user) {
-        const usersList = Object.keys(sessionUsers)
+        let usersList = Object.keys(sessionUsers)
+
+        usersList = removeItemOnce(usersList,user.uid) //make sure active user is allways first elemement of array
+        usersList.unshift(user.uid)
+        
+        sessionUserNames = usersList.map((item) => {
+            return (
+                <UserName uid = {item}/>
+            )
+        })
+
         passiveTimelines = usersList.map((item) => {
             if (item != user.uid) {
                 return (
@@ -59,14 +78,24 @@ export default function Home() {
     }
 
 
+
+
+
     return (
         <React.Fragment>
             <Background>
-                <div ref={timelineContainerRef} className="bg-gray-100 h-2/5 w-10/12 mx-auto block rounded-lg ">
-                    <TimelineActive isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
-                    {passiveTimelines}
+                <div className="grid grid-cols-5 gap-1 p-5">
+                    <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
+                        {sessionUserNames}
+                    </div>
+                    <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-4">
+                        <TimelineActive isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
+                        {passiveTimelines}
+                        <Handle control={setTimeLine} timeLine={timeLine} />
+                    </div>
+
                 </div>
-                <Handle control={setTimeLine} timeLine={timeLine} />
+
             </Background>
         </React.Fragment>
     )

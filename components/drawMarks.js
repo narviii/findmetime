@@ -15,8 +15,13 @@ export function DrawMark({ mark, timeLine }) {
 
 
     return (
-        <div style={{ left: leftPosition, width: width }} className="border disable-select  w-1  absolute  text-center h-10 leading-10  rounded-sm z-10 bg-gray-300   ">
-            {mark.start.clone().startOf("hour").hours()}
+        <div style={{ left: leftPosition, width: width }} className="border rounded-lg disable-select flex flex-col justify-center   absolute  text-center h-full   z-10 bg-gray-300   ">
+            <div className = "text-base leading-tight">
+                {mark.start.clone().startOf("hour").format("h")}
+            </div>
+            <div className=" text-xs leading-tight">
+            {mark.start.clone().startOf("hour").format("a")}
+            </div>
         </div>
     )
 }

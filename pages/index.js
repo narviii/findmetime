@@ -5,6 +5,8 @@ import { useRouter } from 'next/router'
 import { dbFireStore } from '../helpers/firebase'
 import { doc, setDoc, addDoc, collection } from "firebase/firestore";
 import { getAuth} from "firebase/auth";
+var randomstring = require("randomstring");
+
 
 
 
@@ -13,15 +15,9 @@ export default function Home() {
   const auth = getAuth();
 
   const handleClick = async (e) => {
-    const session = await addDoc(collection(dbFireStore, "sessions"), {});
-
-    await setDoc(doc(dbFireStore, session.path, "users", auth.currentUser.uid), {
-      start: 'start',
-      end: 'end'
-    });
     router.push({
       pathname: 'session',
-      query: { id: session.id },
+      query: { id: randomstring.generate()},
     })
   }
 
