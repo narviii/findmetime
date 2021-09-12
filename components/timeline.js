@@ -6,18 +6,15 @@ import { getAuth } from "firebase/auth";
 import { useAuth } from '../hooks/useAuth'
 import {ref, set } from "firebase/database"
 import { getDatabase } from '@firebase/database';
-
+import { timeLineClass } from "../pages/session"
 
 
 export function TimeLinePassive({ isSelectedStart, isSelectedEnd,timeLine }) {
-    
+    console.log(timeLine)
     return (
-        <div  className="relative overflow-block-clip mt-1 ">
-            <div className="h-12">
+        <div  className={timeLineClass}>
                 <DrawMarks timeLine={timeLine} />
                 <ShowSelection isSelectedStart={isSelectedStart} isSelectedEnd={isSelectedEnd} timeLine={timeLine} />
-            </div>
-
         </div>
     )
 }
@@ -28,8 +25,6 @@ export function TimelineActive({isSelected,setSelected, timeLine }) {
     const router = useRouter()
     const user = useAuth()
     const db = getDatabase();
-
-    
 
     useEffect(async () => {
         if (auth.currentUser) {
@@ -42,13 +37,12 @@ export function TimelineActive({isSelected,setSelected, timeLine }) {
         }
     }, [isSelected, user])
     
-
     return (
-        <div className="relative overflow-block-clip mt-1 ">
-            <div className="h-12">
+        
+            <div className={timeLineClass}>
                 <DrawMarks timeLine={timeLine} />
                 <SelectElement control = {setSelected} isSelected={isSelected} timeLine={timeLine}/>
             </div>
-        </div>
+        
     )
 }
