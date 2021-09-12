@@ -10,6 +10,8 @@ import { getAuth} from "firebase/auth";
 
 export default function Home() {
   const router = useRouter()
+  const auth = getAuth();
+
   const handleClick = async (e) => {
     const session = await addDoc(collection(dbFireStore, "sessions"), {});
 
@@ -22,9 +24,7 @@ export default function Home() {
       query: { id: session.id },
     })
   }
-  const auth = getAuth();
 
-  
 
   return (
     <React.Fragment>

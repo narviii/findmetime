@@ -5,7 +5,7 @@ import { useRouter } from 'next/router'
 import { getAuth } from "firebase/auth";
 import { useAuth } from '../hooks/useAuth'
 import {ref, set } from "firebase/database"
-import { db } from '../helpers/firebase';
+import { getDatabase } from '@firebase/database';
 
 
 
@@ -27,6 +27,7 @@ export function TimelineActive({isSelected,setSelected, timeLine }) {
     const auth = getAuth();
     const router = useRouter()
     const user = useAuth()
+    const db = getDatabase();
 
     
 
