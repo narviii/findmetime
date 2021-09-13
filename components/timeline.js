@@ -10,7 +10,7 @@ import { timeLineClass } from "../pages/session"
 
 
 export function TimeLinePassive({ isSelectedStart, isSelectedEnd,timeLine }) {
-    console.log(timeLine)
+    
     return (
         <div  className={timeLineClass}>
                 <DrawMarks timeLine={timeLine} />

@@ -16,11 +16,11 @@ export function DrawMark({ mark, timeLine }) {
 
     return (
         <div style={{ left: leftPosition, width: width }} className="border rounded-lg disable-select flex flex-col justify-center   absolute  text-center h-full   z-10 bg-gray-300   ">
-            <div className = "text-base leading-tight">
+            <div className="text-base leading-tight">
                 {mark.start.clone().startOf("hour").format("h")}
             </div>
             <div className=" text-xs leading-tight">
-            {mark.start.clone().startOf("hour").format("a")}
+                {mark.start.clone().startOf("hour").format("a")}
             </div>
         </div>
     )
@@ -44,14 +44,14 @@ export function DrawMarks({ timeLine }) {
     } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
 
 
-    const marksEl = marks.map((item) => <DrawMark key={Math.random().toString(36).substr(2, 5)} timeLine={timeLine} mark={item} />)
+    const marksEl = marks.map((item) => <DrawMark key={item.start.clone().format("dddd, MMMM Do YYYY, h:mm:ss a")}  timeLine={timeLine} mark={item} />)
 
 
     return (
-        <React.Fragment>
+        <div>
             {marksEl}
             <Now timeLine={timeLine} />
 
-        </React.Fragment>
+        </div>
     )
 }

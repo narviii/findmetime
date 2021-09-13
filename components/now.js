@@ -9,8 +9,6 @@ export function Now({ timeLine }) {
 
 
     return (
-        <div style={{ left: leftPosition, width: width }} className=" disable-select  w-1  absolute  text-center h-full leading-10  rounded-sm z-50 bg-green-900   ">
-
-        </div>
+        <div style={{ left: leftPosition, width: width }} className=" disable-select  w-1  absolute  text-center h-full leading-10  rounded-sm z-50 bg-green-900 "/>
     )
 }

@@ -31,11 +31,11 @@ export function SelectElement({isSelected, control, timeLine }) {
     const rightPosition = getPosition(isSelected.end, timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     return (
-        <React.Fragment>
+        <div>
             <div style={{ left: leftPosition, width: handleWidth, opacity: 100, zIndex: 100 }} onMouseDown={handleMouseLeft} className={handleStyle} />
             <div style={{ left: leftPosition, width: width }} onMouseDown={handleMouseCenter} className={handleStyle} />
             <div style={{ right: timeLine.pixelWidth - rightPosition-handleWidth, width: handleWidth, opacity: 100, zIndex: 100 }} onMouseDown={handleMouseRight} className={handleStyle} />
-        </React.Fragment>
+        </div>
     )
 }
 
@@ -44,9 +44,9 @@ export function ShowSelection({ isSelectedStart, isSelectedEnd, timeLine }) {
     const rightPosition = getPosition(isSelectedEnd, timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     return (
-        <React.Fragment>
+        
             <div style={{ left: leftPosition, width: width }} className={handleStyle} />
-        </React.Fragment>
+       
     )
 
 

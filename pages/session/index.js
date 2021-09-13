@@ -63,14 +63,14 @@ export default function Home() {
         
         sessionUserNames = usersList.map((item) => {
             return (
-                <UserName uid = {item}/>
+                <UserName key={item+"user"} uid = {item}/>
             )
         })
 
         passiveTimelines = usersList.map((item) => {
             if (item != user.uid) {
                 return (
-                    <TimeLinePassive timeLine={timeLine} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                    <TimeLinePassive key = {item} timeLine={timeLine} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
                 )
             }
 
