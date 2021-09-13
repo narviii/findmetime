@@ -41,9 +41,9 @@ export default function Home() {
     )
 
     useEffect(() => {
-        setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
+        setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
         window.addEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current.offsetWidth || 0 })
+            setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
         });
     }, [])
 
@@ -68,9 +68,10 @@ export default function Home() {
         })
 
         passiveTimelines = usersList.map((item) => {
+            
             if (item != user.uid) {
                 return (
-                    <TimeLinePassive key = {item} timeLine={timeLine} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                    <TimeLinePassive key = {item} timeLine={timeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
                 )
             }
 

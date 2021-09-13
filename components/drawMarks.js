@@ -1,5 +1,5 @@
 import React from 'react'
-import moment from 'moment'
+var moment = require('moment-timezone');
 import { getPosition } from '../helpers/getPosition'
 import { Now } from '/components/now';
 
@@ -19,7 +19,7 @@ export function DrawMark({ mark, timeLine }) {
             <div className="text-base leading-tight">
                 {mark.start.clone().startOf("hour").format("h")}
             </div>
-            <div className=" text-xs leading-tight">
+            <div className=" text-tiny leading-tight">
                 {mark.start.clone().startOf("hour").format("a")}
             </div>
         </div>
@@ -27,9 +27,16 @@ export function DrawMark({ mark, timeLine }) {
 }
 
 
-export function DrawMarks({ timeLine }) {
+export function DrawMarks({ timeLine,tz }) {
+
     const start = timeLine.start.clone().subtract(1, "hours")
     const end = timeLine.end.clone().add(1, "hours")
+
+    if (tz){
+       start.tz(tz)
+       end.tz(tz)
+    }
+
     let marks = []
 
     do {
