@@ -11,7 +11,7 @@ import { selectionReducer } from '../../helpers/selectionReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
 
-export const timeLineClass = "h-12 m-1 relative overflow-block-clip"
+export const timeLineClass = "h-12 m-1 mt-4 relative  overflow-block-clip border-l border-r border-gray-500"
 
 
 
@@ -85,7 +85,7 @@ export default function Home() {
     return (
         <React.Fragment>
             <Background>
-                <div className="grid grid-cols-5 gap-1 p-5">
+                <div className="grid grid-cols-5  p-5">
                     <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
                         {sessionUserNames}
                     </div>
