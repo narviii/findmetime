@@ -35,8 +35,8 @@ export function SelectElement({isSelected, control, timeLine }) {
     return (
         <div>
             <div style={{ left: leftPosition, width: handleWidth,zIndex:100}} onMouseDown={handleMouseLeft} className={handleStyle2 } />
-            <div style={{left: leftPosition, width: width }} onMouseDown={handleMouseCenter} className={handleStyle} />
-            <div style={{ left: rightPosition -handleWidth, width: handleWidth, zIndex:50 }} onMouseDown={handleMouseRight} className={handleStyle2} />
+            <div style={{left: leftPosition, width: width,zIndex:100 }} onMouseDown={handleMouseCenter} className={handleStyle} />
+            <div style={{ left: rightPosition -handleWidth, width: handleWidth, zIndex:100 }} onMouseDown={handleMouseRight} className={handleStyle2} />
         </div>
     )
 }

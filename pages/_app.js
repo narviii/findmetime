@@ -22,7 +22,6 @@ async function signIn() {
   }catch{
     console.log("LOGIN ERROR")
   }
-  console.log(auth.currentUser)
 }
 
 function MyApp({ Component, pageProps }) {

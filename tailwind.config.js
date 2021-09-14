@@ -6,7 +6,12 @@ module.exports = {
     fontSize: {
       'tiny': '0.7rem',
     },
-    extend: {},
+    extend: {
+      spacing:{
+        '100':'50rem',
+        '200':'80rem'
+      }
+    },
   },
   variants: {
     extend: {},

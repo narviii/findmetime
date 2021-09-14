@@ -85,16 +85,17 @@ export default function Home() {
     return (
         <React.Fragment>
             <Background>
-                <div className="grid grid-cols-5  p-5">
-                    <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
-                        {sessionUserNames}
+                <div>
+                    <div  className="w-100 xl:w-200 grid mx-auto grid-cols-5  p-5">
+                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
+                            {sessionUserNames}
+                        </div>
+                        <div ref={timelineContainerRef} className="bg-gray-100   w-full mx-auto block rounded-lg col-span-4">
+                            <TimelineActive isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
+                            {passiveTimelines}
+                            <Handle control={setTimeLine} timeLine={timeLine} />
+                        </div>
                     </div>
-                    <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-4">
-                        <TimelineActive isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
-                        {passiveTimelines}
-                        <Handle control={setTimeLine} timeLine={timeLine} />
-                    </div>
-
                 </div>
 
             </Background>
