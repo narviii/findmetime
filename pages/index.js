@@ -26,7 +26,7 @@ export default function Home() {
     <React.Fragment>
       <Background>
         <div className="flex flex-col justify-center h-full ">
-          <button onClick={handleClick} className="bg-green-300 hover:bg-green-100 p-3 cursor-pointer   mx-auto block text-center  ">
+          <button onClick={handleClick} className="hover:border-2 border-gray-500 rounded-md p-3 cursor-pointer   mx-auto block text-center  ">
             Start new session
           </button>
         </div>
