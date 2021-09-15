@@ -7,6 +7,7 @@ import { ref, set, update } from "firebase/database"
 import { getDatabase } from '@firebase/database';
 import { timeLineClass } from "../pages/session"
 import { useCurrentUser } from '../hooks/useCurrentUser'
+import { Now } from '/components/now';
 
 
 export function TimeLinePassive({ isSelectedStart, tz, isSelectedEnd, timeLine }) {
@@ -15,6 +16,7 @@ export function TimeLinePassive({ isSelectedStart, tz, isSelectedEnd, timeLine }
         <div className={timeLineClass}>
             <DrawMarks timeLine={timeLine} tz={tz} />
             <ShowSelection isSelectedStart={isSelectedStart} isSelectedEnd={isSelectedEnd} timeLine={timeLine} />
+            <Now timeLine={timeLine} />
         </div>
     )
 }
@@ -42,6 +44,7 @@ export function TimelineActive({ isSelected, setSelected, timeLine }) {
         <div className={timeLineClass}>
             <DrawMarks timeLine={timeLine} />
             <SelectElement control={setSelected} isSelected={isSelected} timeLine={timeLine} />
+            <Now timeLine={timeLine} />
         </div>
 
     )

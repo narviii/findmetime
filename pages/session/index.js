@@ -45,6 +45,10 @@ export default function Home() {
         window.addEventListener('resize', function () {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
         });
+
+        return window.removeEventListener('resize', function () {
+            setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
+        });
     }, [])
 
     
@@ -86,7 +90,7 @@ export default function Home() {
         <React.Fragment>
             <Background>
                 <div>
-                    <div  className="w-100 xl:w-200 grid mx-auto grid-cols-5  p-5">
+                    <div  className=" grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
                         <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
                             {sessionUserNames}
                         </div>

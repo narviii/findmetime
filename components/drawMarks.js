@@ -2,6 +2,7 @@ import React from 'react'
 var moment = require('moment-timezone');
 import { getPosition } from '../helpers/getPosition'
 import { Now } from '/components/now';
+import { useState,useEffect } from 'react';
 
 
 const generalMark = "relative-pointer-events-none border-t border-b border-gray-500 disable-select flex flex-col justify-center     absolute  text-center h-full   z-20  "
@@ -39,8 +40,8 @@ export function DrawMark({ mark, timeLine }) {
     if (mark.start.clone().startOf("hour").hour() == 0) {
         return (
             <React.Fragment>
-                <div style={{ left: leftPosition, width: width,top:-13 }} className="text-center text-tiny absolute leading-tight z-50 ">
-                    {mark.start.clone().startOf("hour").format("ddd").toUpperCase()}
+                <div style={{ left: leftPosition, width: width, top: -13 }} className="text-center text-tiny absolute leading-tight z-50 ">
+                    {mark.start.clone().startOf("hour").format("dddd").toUpperCase()}
                 </div>
 
                 <div style={{ left: leftPosition, width: width }} className={hour00 + bgColor}>
@@ -70,6 +71,12 @@ export function DrawMark({ mark, timeLine }) {
 
 
 export function DrawMarks({ timeLine, tz }) {
+    const [mounted, setMounted] = useState(false);
+    useEffect(() => {
+        setMounted(true)
+    }, [])
+
+    let marks = []
 
     const start = timeLine.start.clone().subtract(1, "hours")
     const end = timeLine.end.clone().add(1, "hours")
@@ -79,19 +86,18 @@ export function DrawMarks({ timeLine, tz }) {
         end.tz(tz)
     }
 
-    let marks = []
+    if (mounted == true) { // make sure we are on client
+        do {
+            marks.push({
+                start: start.clone().startOf("hour"),
+                end: start.clone().endOf("hour")
+            })
 
-    do {
-        marks.push({
-            start: start.clone().startOf("hour"),
-            end: start.clone().endOf("hour")
-        })
-
-        start.add(1, "hours")
+            start.add(1, "hours")
 
 
-    } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
-
+        } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
+    }
 
     const marksEl = marks.map((item) => <DrawMark key={item.start.clone().format("dddd, MMMM Do YYYY, h:mm:ss a")} timeLine={timeLine} mark={item} />)
 
@@ -99,8 +105,6 @@ export function DrawMarks({ timeLine, tz }) {
     return (
         <div>
             {marksEl}
-            <Now timeLine={timeLine} />
-
         </div>
     )
 }
