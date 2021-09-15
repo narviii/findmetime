@@ -1,4 +1,5 @@
 import { getTimeFromOffset } from '../helpers/getTimeOffset';
+import moment from 'moment';
 
 
 export function selectionReducer(state, action) {
@@ -41,14 +42,16 @@ export function selectionReducer(state, action) {
 
 export function timeLineReducer(state, action) {
   const timeOffset = getTimeFromOffset(action.offset, state.start, state.end, state.pixelWidth)
-  const scaleFactor = (action.offsetY || 0) / 30
+  let scaleFactor = (action.offsetY || 0) / 30
 
-  if (action.type === "isDragging" && action.id === "translateTimeline") return {
+  if (action.type === "isDragging") return {
     ...state,
     originStart: state.start.clone(),
     originEnd: state.end.clone()
 
   }
+
+
 
   if (action.type === 'set_width') {
     return { ...state, pixelWidth: action.width }
@@ -58,10 +61,32 @@ export function timeLineReducer(state, action) {
       case "translateTimeline":
         return {
           ...state,
-          start: state.originStart.clone().add(timeOffset - scaleFactor, "hours"),
-          end: state.originEnd.clone().add(timeOffset + scaleFactor, "hours")
+          start: state.originStart.clone().subtract(timeOffset, "hours"),
+          end: state.originEnd.clone().subtract(timeOffset, "hours")
 
         }
+      case "scaleTimeline":
+        const newStart = state.originStart.clone().subtract(scaleFactor, "hours")
+        const newEnd = state.originEnd.clone().add(scaleFactor, "hours")
+        const timeLineDurationHours = moment.duration(state.originEnd.clone().subtract(state.originStart.clone())).asHours()
+        //console.log(`timeLineDurationHours:${timeLineDurationHours} scaleFactor:${scaleFactor}`)
+        
+        if ((timeLineDurationHours+2*scaleFactor)>30){
+          scaleFactor=(30 - timeLineDurationHours)/2
+        } else if ((timeLineDurationHours+2*scaleFactor)<6){
+          scaleFactor=(6- timeLineDurationHours)/2
+        }
+
+
+        
+
+        return {
+          ...state,
+          start: state.originStart.clone().subtract(scaleFactor, "hours"),
+          end: state.originEnd.clone().add(scaleFactor, "hours")
+
+        }
+
     }
 
   }

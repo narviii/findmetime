@@ -8,12 +8,12 @@ const handleStyle2 = " cursor-pointer bg-red-500   h-full rounded-lg  w-2 absolu
 
 export function Handle({ control, timeLine }) {
 
-    const handleMouseDown = useDrag(control, "translateTimeline")
+    const handleMouseDown = useDrag(control, "scaleTimeline")
 
     return (
         <div>
-            <div onMouseDown={handleMouseDown} className="bg-border cursor-pointer rounded-lg    mx-auto w-32 block text-center leading-10 disable-select">
-                DRAG ME
+            <div onMouseDown={handleMouseDown} className="bg-border cursor-pointer rounded-lg     mx-auto w-60 block text-center leading-10 disable-select">
+                CLICK AND DRAG TO ZOOM
             </div>
         </div>
 
@@ -21,11 +21,11 @@ export function Handle({ control, timeLine }) {
 }
 
 
-export function SelectElement({isSelected, control, timeLine }) {
+export function SelectElement({ isSelected, control, timeLine }) {
 
-    const handleMouseLeft = useDrag(control, "left",timeLine)
-    const handleMouseCenter = useDrag(control, "center",timeLine)
-    const handleMouseRight = useDrag(control, "right",timeLine)
+    const handleMouseLeft = useDrag(control, "left", timeLine)
+    const handleMouseCenter = useDrag(control, "center", timeLine)
+    const handleMouseRight = useDrag(control, "right", timeLine)
 
     const handleWidth = 10
 
@@ -34,9 +34,9 @@ export function SelectElement({isSelected, control, timeLine }) {
     const width = rightPosition - leftPosition
     return (
         <div>
-            <div style={{ left: leftPosition, width: handleWidth,zIndex:100}} onMouseDown={handleMouseLeft} className={handleStyle2 } />
-            <div style={{left: leftPosition, width: width,zIndex:100 }} onMouseDown={handleMouseCenter} className={handleStyle} />
-            <div style={{ left: rightPosition -handleWidth, width: handleWidth, zIndex:100 }} onMouseDown={handleMouseRight} className={handleStyle2} />
+            <div style={{ left: leftPosition, width: handleWidth, zIndex: 100 }} onMouseDown={handleMouseLeft} className={handleStyle2} />
+            <div style={{ left: leftPosition, width: width, zIndex: 80 }} onMouseDown={handleMouseCenter} className={handleStyle} />
+            <div style={{ left: rightPosition - handleWidth, width: handleWidth, zIndex: 100 }} onMouseDown={handleMouseRight} className={handleStyle2} />
         </div>
     )
 }
@@ -46,9 +46,9 @@ export function ShowSelection({ isSelectedStart, isSelectedEnd, timeLine }) {
     const rightPosition = getPosition(isSelectedEnd, timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     return (
-        
-            <div style={{left: leftPosition, width: width }} className={handleStyle} />
-       
+
+        <div style={{ left: leftPosition, width: width }} className={handleStyle} />
+
     )
 
 

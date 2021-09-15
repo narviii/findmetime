@@ -1,16 +1,28 @@
 import React from 'react'
 var moment = require('moment-timezone');
 import { getPosition } from '../helpers/getPosition'
-import { Now } from '/components/now';
 import { useState,useEffect } from 'react';
 
 
-const generalMark = "relative-pointer-events-none border-t border-b border-gray-500 disable-select flex flex-col justify-center     absolute  text-center h-full   z-20  "
-const hour23 = "pointer-events-none rounded-r-md border-t border-r border-b border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
-const hour00 = "pointer-events-none rounded-l-md border-t border-b border-l border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+const generalMark = " border-t border-b border-gray-500 disable-select flex flex-col justify-center     absolute  text-center h-full   z-20  "
+const hour23 = " rounded-r-md border-t border-r border-b border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+const hour00 = " rounded-l-md border-t border-b border-l border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
 
+/*
+export function Mark({left,width,className,children}){
+    return(
+
+    )
+}
+*/
 
 export function DrawMark({ mark, timeLine }) {
+
+    /*
+                <div style={{ left: leftPosition, width: width, top: -13 }} className="text-center text-tiny absolute leading-tight z-50 ">
+                    {mark.start.clone().startOf("hour").format("dddd").toUpperCase()}
+                </div>
+    */
 
     const leftPosition = getPosition(mark.start.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const rightPosition = getPosition(mark.end.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
@@ -40,9 +52,7 @@ export function DrawMark({ mark, timeLine }) {
     if (mark.start.clone().startOf("hour").hour() == 0) {
         return (
             <React.Fragment>
-                <div style={{ left: leftPosition, width: width, top: -13 }} className="text-center text-tiny absolute leading-tight z-50 ">
-                    {mark.start.clone().startOf("hour").format("dddd").toUpperCase()}
-                </div>
+                
 
                 <div style={{ left: leftPosition, width: width }} className={hour00 + bgColor}>
 

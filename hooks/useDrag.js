@@ -2,7 +2,6 @@ import { useState, useEffect } from "react"
 
 export const useDrag = (control, id, timeline) => {
 
-    ///test comment
     const [state, setState] = useState({
         isDraging: false,
         origin: { x: 0, y: 0 },
@@ -19,11 +18,7 @@ export const useDrag = (control, id, timeline) => {
         }
     }, [state.isDraging])
 
-    useEffect(() => {
-        if (state.isDraging === true) {
-        }
-
-    }, [state.isDraging])
+    
 
     const handleMouseMove = ({ clientX, clientY }) => {
         const translation = { x: clientX - state.origin.x, y: clientY - state.origin.y }
@@ -41,7 +36,11 @@ export const useDrag = (control, id, timeline) => {
         }
     }
 
-    const handleMouseDown = ({ clientX, clientY }) => {
+    const handleMouseDown = (e) => {
+       const clientX = e.clientX
+       const clientY= e.clientY
+       e.stopPropagation()
+       
         control({
             type: "isDragging",
             id: id,
