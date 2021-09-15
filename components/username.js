@@ -32,10 +32,10 @@ export function UserName({ uid }) {
 
     return (
         <div className={timeLineClass + nameElemClass +  "rounded-md"}>
-            <div className="text-center ">
+            <div className="text-center text-xs sm:text-base">
                 {displayName}
             </div>
-            <div className="text-center text-tiny">
+            <div className="text-center text-xs">
                 {tz}
             </div>
         </div>

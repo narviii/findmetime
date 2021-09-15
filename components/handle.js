@@ -1,20 +1,24 @@
 import React from 'react'
 import { useDrag } from '../hooks/useDrag'
 import { getPosition } from '../helpers/getPosition'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDoubleUp,faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons'
 
 const handleStyle = " cursor-pointer border-2 border-red-500 h-full z-50 rounded-lg  w-2 absolute text-center z-10  leading-10 disable-select"
 const handleStyle2 = " cursor-pointer bg-red-500   h-full rounded-lg  w-2 absolute text-center z-10  leading-10 disable-select"
 
 
-export function Handle({ control, timeLine }) {
+export function Handle({ control}) {
 
     const handleMouseDown = useDrag(control, "scaleTimeline")
 
     return (
-        <div>
-            <div onMouseDown={handleMouseDown} className="bg-border cursor-pointer rounded-lg     mx-auto w-60 block text-center leading-10 disable-select">
+        <div onMouseDown={handleMouseDown} className="mt-3 mx-auto">
+            <FontAwesomeIcon icon={faAngleDoubleUp} className="mx-auto block" />
+            <div  className="bg-border cursor-pointer rounded-lg mx-auto    w-60 block text-center leading-10 disable-select">
                 CLICK AND DRAG TO ZOOM
             </div>
+            <FontAwesomeIcon icon={faAngleDoubleDown} className="mx-auto block" />
         </div>
 
     )
@@ -47,7 +51,7 @@ export function ShowSelection({ isSelectedStart, isSelectedEnd, timeLine }) {
     const width = rightPosition - leftPosition
     return (
 
-        <div style={{ left: leftPosition, width: width }} className={handleStyle} />
+        <div style={{zIndex:100, left: leftPosition, width: width }} className={handleStyle} />
 
     )
 

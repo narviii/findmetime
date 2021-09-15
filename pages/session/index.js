@@ -11,7 +11,7 @@ import { selectionReducer } from '../../helpers/selectionReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
 
-export const timeLineClass = "h-12 m-1 mt-4 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const timeLineClass = "h-12 m-1 mt-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
 
 
@@ -97,9 +97,11 @@ export default function Home() {
                         <div ref={timelineContainerRef} className="bg-gray-100   w-full mx-auto block rounded-lg col-span-4">
                             <TimelineActive control = {setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
                             {passiveTimelines}
-                            <Handle control={setTimeLine} timeLine={timeLine} />
+                            
                         </div>
+                        
                     </div>
+                    <Handle control={setTimeLine} timeLine={timeLine} />
                 </div>
 
             </Background>
