@@ -10,6 +10,7 @@ import { Handle } from '../../components/handle'
 import { selectionReducer } from '../../helpers/selectionReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
+import { getDatabase, ref, onValue } from "@firebase/database";
 
 export const timeLineClass = "h-12 m-1 mt-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
@@ -19,6 +20,8 @@ export default function Home() {
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
     const user = useAuth()
+    const db = getDatabase();
+
     const timelineContainerRef = useRef(0)
 
 
@@ -41,47 +44,48 @@ export default function Home() {
     )
 
     useEffect(() => {
-        setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
+        setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         window.addEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
+            setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         });
 
         return window.removeEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current?timelineContainerRef.current.offsetWidth:0 })
+            setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         });
     }, [])
 
-    
+
 
 
     let passiveTimelines
     let sessionUserNames
 
-    
+
 
     if (sessionUsers && user) {
         let usersList = Object.keys(sessionUsers)
 
-        usersList = removeItemOnce(usersList,user.uid) //make sure active user is allways first elemement of array
+        usersList = removeItemOnce(usersList, user.uid) //make sure active user is allways first elemement of array
         usersList.unshift(user.uid)
-        
+
         sessionUserNames = usersList.map((item) => {
             return (
-                <UserName key={item+"user"} uid = {item}/>
+                <UserName key={item + "user"} uid={item} />
             )
         })
 
         passiveTimelines = usersList.map((item) => {
-            
+
             if (item != user.uid) {
                 return (
-                    <TimeLinePassive control = {setTimeLine} key = {item} timeLine={timeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                    <TimeLinePassive control={setTimeLine} key={item} timeLine={timeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
                 )
             }
 
         })
     }
 
+    
 
 
 
@@ -90,16 +94,16 @@ export default function Home() {
         <React.Fragment>
             <Background>
                 <div>
-                    <div  className=" grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
+                    <div className=" grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
                         <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
                             {sessionUserNames}
                         </div>
                         <div ref={timelineContainerRef} className="bg-gray-100   w-full mx-auto block rounded-lg col-span-4">
-                            <TimelineActive control = {setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
+                            <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
                             {passiveTimelines}
-                            
+
                         </div>
-                        
+
                     </div>
                     <Handle control={setTimeLine} timeLine={timeLine} />
                 </div>

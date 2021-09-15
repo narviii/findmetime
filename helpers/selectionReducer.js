@@ -3,12 +3,23 @@ import moment from 'moment';
 
 
 export function selectionReducer(state, action) {
+  
+
   const timeOffset = getTimeFromOffset(action.offset, action.timeline.start, action.timeline.end, action.timeline.pixelWidth)
   if (action.type === "isDragging" && action.id != "translateTimeline") return {
     ...state,
     originStart: state.start.clone(),
     originEnd: state.end.clone()
   }
+  
+  if (action.type === 'set'){
+    return {
+      ...state,
+      start:action.start,
+      end:action.end
+    }
+  }
+  
 
   if (action.type === "translate") {
     switch (action.id) {

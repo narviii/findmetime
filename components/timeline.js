@@ -10,6 +10,8 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 import { Now } from '/components/now';
 import { useDrag } from '../hooks/useDrag'
 import { DrawDates } from './drawDates';
+import { getAuth } from '@firebase/auth';
+import { onValue } from "@firebase/database";
 
 
 
@@ -38,9 +40,23 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
     const router = useRouter()
     const db = getDatabase();
     const user = useCurrentUser()
-
     const handleMouseDown = useDrag(control, "translateTimeline")
 
+    useEffect(() => {
+        if (user) {
+            onValue(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), (snapshot) => {
+                const data = snapshot.val();
+                //console.log(data)
+                setSelected({
+                    type: "set",
+                    timeline:timeLine,
+                    start:moment(data.start),
+                    end:moment(data.end)
+                })
+                
+            });
+        }
+    }, [user])
 
 
     useEffect(async () => {
