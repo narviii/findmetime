@@ -46,7 +46,6 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
         if (user) {
             onValue(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), (snapshot) => {
                 const data = snapshot.val();
-                //console.log(data)
                 setSelected({
                     type: "set",
                     timeline:timeLine,
