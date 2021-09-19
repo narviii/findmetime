@@ -11,6 +11,7 @@ import { selectionReducer } from '../../helpers/selectionReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
 import { getDatabase, ref, onValue } from "@firebase/database";
+import { CopyToClipboard } from '../../components/copytoclipboard';
 
 export const timeLineClass = "h-12 m-1 mt-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
@@ -94,11 +95,12 @@ export default function Home() {
         <React.Fragment>
             <Background>
                 <div>
-                    <div className=" grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
+                    <CopyToClipboard/>
+                    <div className="grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
                         <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
                             {sessionUserNames}
                         </div>
-                        <div ref={timelineContainerRef} className="bg-gray-100   w-full mx-auto block rounded-lg col-span-4">
+                        <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-4">
                             <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
                             {passiveTimelines}
 
