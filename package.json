@@ -12,6 +12,7 @@
     "firebase": "^9.0.2",
     "moment": "^2.29.1",
     "moment-range": "^4.0.2",
+    "moment-ranges": "^0.8.12",
     "moment-timezone": "^0.5.33",
     "next": "latest",
     "randomstring": "^1.2.1",

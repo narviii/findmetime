@@ -12,7 +12,7 @@ import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
 import { getDatabase, ref, onValue } from "@firebase/database";
 import { CopyToClipboard } from '../../components/copytoclipboard';
-
+import { OutPut } from '../../components/output';
 export const timeLineClass = "h-12 m-1 mt-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
 
@@ -90,7 +90,6 @@ export default function Home() {
 
 
 
-
     return (
         <React.Fragment>
             <Background>
@@ -103,12 +102,12 @@ export default function Home() {
                         <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-4">
                             <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
                             {passiveTimelines}
-
                         </div>
 
                     </div>
                     <Handle control={setTimeLine} timeLine={timeLine} />
                 </div>
+                <OutPut sessionUsers={sessionUsers}/>
 
             </Background>
         </React.Fragment>
