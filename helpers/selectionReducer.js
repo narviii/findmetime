@@ -80,7 +80,6 @@ export function timeLineReducer(state, action) {
         const newStart = state.originStart.clone().subtract(scaleFactor, "hours")
         const newEnd = state.originEnd.clone().add(scaleFactor, "hours")
         const timeLineDurationHours = moment.duration(state.originEnd.clone().subtract(state.originStart.clone())).asHours()
-        //console.log(`timeLineDurationHours:${timeLineDurationHours} scaleFactor:${scaleFactor}`)
         
         if ((timeLineDurationHours+2*scaleFactor)>30){
           scaleFactor=(30 - timeLineDurationHours)/2

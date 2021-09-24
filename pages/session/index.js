@@ -13,7 +13,10 @@ import { UserName } from '../../components/username';
 import { getDatabase, ref, onValue } from "@firebase/database";
 import { CopyToClipboard } from '../../components/copytoclipboard';
 import { OutPut } from '../../components/output';
-export const timeLineClass = "h-12 m-1 mt-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+import { ZoomTimeline } from '../../components/timeline';
+import { DrawZoomDates } from '../../components/drawDates';
+export const timeLineClass = "h-12 m-1 mb-3 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-10 m-1 mb-3 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
 
 
@@ -25,6 +28,14 @@ export default function Home() {
 
     const timelineContainerRef = useRef(0)
 
+    const [zoomTimeline, setZoomTimeline] = useReducer(
+        timeLineReducer,
+        {
+            start: moment().subtract(1, "days"),
+            end: moment().add(1, "days"),
+            pixelWidth: 0
+        }
+    )
 
 
 
@@ -46,12 +57,16 @@ export default function Home() {
 
     useEffect(() => {
         setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+        setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+
         window.addEventListener('resize', function () {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+            setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         });
 
         return window.removeEventListener('resize', function () {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+            setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         });
     }, [])
 
@@ -85,29 +100,39 @@ export default function Home() {
 
         })
     }
-
+    /*
+        <div className="col-span-1 flex flex-col justify-center ">
+                                <Handle control={setTimeLine} timeLine={timeLine} />
+                            </div>
+        
     
-
-
-
+    */
     return (
         <React.Fragment>
             <Background>
                 <div>
-                    <CopyToClipboard/>
-                    <div className="grid mx-auto grid-cols-5  p-5 max-w-screen-xl">
-                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg">
+                    <CopyToClipboard />
+                    <div className="grid mx-auto grid-cols-10 grid-flow-row grid-rows-2  p-5 max-w-screen-xl">
+                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-2">
+                            <div className={zoomTimeLineClass}>  </div>
                             {sessionUserNames}
                         </div>
-                        <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-4">
+                        <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-8">
+                            <ZoomTimeline control={setZoomTimeline}>
+                                <DrawZoomDates timeLine={zoomTimeline}>
+                                    
+                                </DrawZoomDates>
+                            </ZoomTimeline>
+
                             <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
                             {passiveTimelines}
+
                         </div>
 
                     </div>
-                    <Handle control={setTimeLine} timeLine={timeLine} />
+
                 </div>
-                <OutPut sessionUsers={sessionUsers}/>
+                <OutPut sessionUsers={sessionUsers} />
 
             </Background>
         </React.Fragment>

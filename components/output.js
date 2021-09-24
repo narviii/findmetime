@@ -11,13 +11,27 @@ export const OutPut = ({ sessionUsers }) => {
     const ranges = []
     let intersectRange
 
-    if (sessionUsers){
-        for (const key in sessionUsers){
-            const range = moment.range(moment(sessionUsers[key].start),moment(sessionUsers[key].end))
+    if (sessionUsers&&Object.keys(sessionUsers).length>1) {
+        for (const key in sessionUsers) {
+            const range = moment.range(moment(sessionUsers[key].start), moment(sessionUsers[key].end))
             ranges.push(range)
         }
     }
 
+    let i = 0
+    if (sessionUsers&&Object.keys(sessionUsers).length>1) {
+        do {
+            if (i == 0) {
+                intersectRange = ranges[i].intersect(ranges[i + 1])
+            } else {
+                intersectRange = intersectRange.intersect(ranges[i + 1])
+
+            }
+            i++
+        } while ((i < ranges.length - 1) && intersectRange != null)
+    }
+
+    /*
     for (let i=0;i<ranges.length-1;i++){
         if (i==0){
             intersectRange = ranges[i].intersect(ranges[i+1])
@@ -26,21 +40,22 @@ export const OutPut = ({ sessionUsers }) => {
 
         }
     }
-    
+    */
 
 
     return (
         <React.Fragment>
-            <div className="mx-auto max-w-screen-xl w- w-4/12 ">
-                <p className="text-center text-sm">
-                    Intersection of all selected intervals:
-                </p>
-                <p>
-                    {intersectRange?intersectRange.start.format("dddd, MMMM Do YYYY, h:mm:ss a"):"    "}
-                </p>
-                <p>
-                    {intersectRange?intersectRange.end.format("dddd, MMMM Do YYYY, h:mm:ss a"):"   "}
-                </p>
+            <p className="text-center text-sm mt-4">
+                All parties are available on:
+            </p>
+            <div className="mx-auto items-center max-w-screen-xl h-24 grid grid-cols-2 justify-center w-2/5 mt-2 border rounded-md p-4 border-black ">
+
+                <span className="text-center text-sm align">
+                    {intersectRange ? intersectRange.start.format("dddd, MMMM Do YYYY, h:mm a") : "    "}
+                </span>
+                <span className="text-center text-sm">
+                    {intersectRange ? intersectRange.end.format("dddd, MMMM Do YYYY, h:mm a") : "   "}
+                </span>
             </div>
         </React.Fragment>
     )

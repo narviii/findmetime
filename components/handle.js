@@ -13,12 +13,12 @@ export function Handle({ control}) {
     const handleMouseDown = useDrag(control, "scaleTimeline")
 
     return (
-        <div onMouseDown={handleMouseDown} className="mt-3 mx-auto">
-            <FontAwesomeIcon icon={faAngleDoubleUp} className="mx-auto block" />
-            <div  className="bg-border cursor-pointer rounded-lg mx-auto    w-60 block text-center leading-10 disable-select">
-                CLICK AND DRAG TO ZOOM
+        <div onMouseDown={handleMouseDown} className="flex flex-col justify-center align-middle cursor-pointer">
+            <FontAwesomeIcon icon={faAngleDoubleUp} className="" />
+            <div  className="bg-border rounded-lg  block  disable-select">
+                ZOOM
             </div>
-            <FontAwesomeIcon icon={faAngleDoubleDown} className="mx-auto block" />
+            <FontAwesomeIcon icon={faAngleDoubleDown} className="text-center " />
         </div>
 
     )
