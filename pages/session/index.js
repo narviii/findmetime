@@ -140,9 +140,7 @@ export default function Home() {
                         </div>
                         <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-8">
                             <ZoomTimeline control={setZoomTimeline}>
-                                <DrawZoomDates timeLine={zoomTimeline}>
-                                    
-                                </DrawZoomDates>
+                                <DrawZoomDates timeLine={zoomTimeline}/>
                                 <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline}/>
                                 <Now timeLine={zoomTimeline} scale={10} />
                             </ZoomTimeline>
