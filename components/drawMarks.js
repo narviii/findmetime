@@ -9,36 +9,21 @@ const generalMark = " border-t border-b border-gray-500 disable-select flex flex
 const hour23 = " rounded-r-md border-t border-r border-b border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
 const hour00 = " rounded-l-md border-t border-b border-l border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
 
-/*
-export function Mark({left,width,className,children}){
-    return(
-
-    )
-}
-*/
 
 export function DrawMark({ isSelected, mark, timeLine }) {
 
-    /*
-                <div style={{ left: leftPosition, width: width, top: -13 }} className="text-center text-tiny absolute leading-tight z-50 ">
-                    {mark.start.clone().startOf("hour").format("dddd").toUpperCase()}
-                </div>
-    */
 
     const leftPosition = getPosition(mark.start.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const rightPosition = getPosition(mark.end.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
     let bgColor = ""
     let textColor = ""
-   
-        if (mark.start.clone().add(0.5,"hours").isBetween(isSelected.start.clone(), isSelected.end.clone())) {
-           // console.log('aaa')
+
+    if (isSelected.start && isSelected.end) {
+        if (mark.start.clone().add(0.5, "hours").isBetween(isSelected.start.clone(), isSelected.end.clone())) {
             textColor = " text-red-500"
         }
-   
-
-
-
+    }
 
     if (mark.start.clone().startOf("hour").hour() > 6 && mark.start.clone().startOf("hour").hour() < 21) {
         bgColor = ""
@@ -46,9 +31,12 @@ export function DrawMark({ isSelected, mark, timeLine }) {
         bgColor = "bg-gray-300"
     }
 
+
+
+
     if (mark.start.clone().startOf("hour").hour() == 23) {
         return (
-            <div style={{ left: leftPosition, width: width }} className={hour23 + bgColor+textColor}>
+            <div style={{ left: leftPosition, width: width }} className={hour23 + bgColor + textColor}>
                 <div className="  text-base leading-tight" >
                     {mark.start.clone().startOf("hour").format("h")}
                 </div>
@@ -90,7 +78,7 @@ export function DrawMark({ isSelected, mark, timeLine }) {
 }
 
 
-export function DrawMarks({isSelected, timeLine, tz }) {
+export function DrawMarks({ isSelected, timeLine, tz }) {
     const mounted = useMounted()
 
     let marks = []

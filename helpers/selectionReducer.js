@@ -5,13 +5,21 @@ import moment from 'moment';
 
 export function selectionReducer(state, action) {
   
-
   const timeOffset = getTimeFromOffset(action.offset, action.timeline.start, action.timeline.end, action.timeline.pixelWidth)
-  if (action.type === "isDragging" && action.id != "translateTimeline") return {
+
+  const timePosition = getTimeFromOffset((action.clientX - action.timeline.domRect.left-6), action.timeline.start, action.timeline.end, action.timeline.domRect.width)
+  if (action.type === "isDragging" && action.id != "setSelection") return {
     ...state,
     originStart: state.start.clone(),
     originEnd: state.end.clone()
   }
+
+  if (action.type === "isDragging" && action.id === "setSelection") return {
+    ...state,
+    start:action.timeline.start.clone().add(timePosition-0.5,"hours"),
+    end:action.timeline.start.clone().add(timePosition+0.5,"hours")
+}
+  
   
   if (action.type === 'set'){
     return {
@@ -42,6 +50,12 @@ export function selectionReducer(state, action) {
         return {
           ...state,
           end: state.originEnd.clone().add(timeOffset, "hours")
+        }
+      case "setSelection" :
+        return{
+          ...state,
+          start:action.timeline.start.clone().add(timePosition-0.5,"hours"),
+          end:action.timeline.start.clone().add(timePosition+0.5,"hours")
         }
 
     }

@@ -18,7 +18,7 @@ export const useDrag = (control, id, timeline) => {
         }
     }, [state.isDraging])
 
-    
+
 
     const handleMouseMove = ({ clientX, clientY }) => {
         const translation = { x: clientX - state.origin.x, y: clientY - state.origin.y }
@@ -30,22 +30,26 @@ export const useDrag = (control, id, timeline) => {
                 offset: translation.x,
                 offsetX: translation.x,
                 offsetY: translation.y,
+                clientX:clientX,
+                clientY:clientY,
                 id: id,
-                timeline:timeline
+                timeline: timeline
             })
         }
     }
 
     const handleMouseDown = (e) => {
-       const clientX = e.clientX
-       const clientY= e.clientY
-       e.stopPropagation()
-       
+        const clientX = e.clientX
+        const clientY = e.clientY
+        e.stopPropagation()
+
         control({
             type: "isDragging",
             id: id,
             offset: 0,
-            timeline:timeline
+            clientX: clientX,
+            clientY: clientY,
+            timeline: timeline
         })
         setState(prevState => ({
             ...state,

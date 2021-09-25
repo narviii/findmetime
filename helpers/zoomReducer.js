@@ -19,6 +19,11 @@ export function zoomReducer(state, action) {
     if (action.type === 'set_width') {
         return { ...state, pixelWidth: action.width }
     }
+
+    if (action.type === 'set_domRect') {
+        return { ...state, domRect: action.domRect }
+    }
+
     if (action.type === "translate") {
         switch (action.id) {
             case "translateTimeline":

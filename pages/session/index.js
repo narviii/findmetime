@@ -66,30 +66,36 @@ export default function Home() {
 
     const [isSelected, setSelected] = useReducer(
         selectionReducer,
-        {
-            start: moment().subtract(1, "hours"),
-            end: moment().add(1, "hours")
+        {   
+           
         },
     )
 
     const newTimeLine = {
         start:zoomTimeline.zoomStart,
         end:zoomTimeline.zoomEnd,
-        pixelWidth:zoomTimeline.pixelWidth
+        pixelWidth:zoomTimeline.pixelWidth,
+        domRect:zoomTimeline.domRect
     }
 
     useEffect(() => {
         setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
         setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+        setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
+
 
         window.addEventListener('resize', function () {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
             setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+            setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
+
         });
 
         return window.removeEventListener('resize', function () {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
             setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+            setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
+
         });
     }, [])
 
@@ -122,13 +128,6 @@ export default function Home() {
 
         })
     }
-    /*
-        <div className="col-span-1 flex flex-col justify-center ">
-                                <Handle control={setTimeLine} timeLine={timeLine} />
-                            </div>
-        
-    
-    */
     return (
         <React.Fragment>
             <Background>
@@ -148,7 +147,7 @@ export default function Home() {
                                 <Now timeLine={zoomTimeline} scale={10} />
                             </ZoomTimeline>
 
-                            <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={newTimeLine} />
+                            <TimelineActive control={setSelected} isSelected={isSelected} setSelected={setSelected} timeLine={newTimeLine} />
                             {passiveTimelines}
 
                         </div>
