@@ -21,6 +21,7 @@ export function ZoomTimeline({children,control}) {
 
     return (
         <div onMouseDown={handleMouseDown} className={zoomTimeLineClass}>
+            
             {children}
         </div>
 
@@ -122,7 +123,7 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
             <div onMouseDown={handleMouseDown} className={timeLineClass}>
                 <DrawMarks isSelected={isSelected} timeLine={timeLine} />
                 <SelectElement control={setSelected} isSelected={isSelected} timeLine={timeLine} />
-                <Now timeLine={timeLine} />
+                <Now timeLine={timeLine} scale={1} />
 
                 <OutMark timeLine={timeLine} isSelected={isSelected} />
             </div>

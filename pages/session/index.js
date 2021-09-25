@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useReducer } from 'react'
-import moment from "moment";
 import { Background } from '../../components/background';
 import { useRouter } from 'next/router'
 import { useAuth } from '../../hooks/useAuth'
@@ -8,6 +7,7 @@ import { TimelineActive, TimeLinePassive } from '../../components/timeline';
 import { timeLineReducer } from '../../helpers/selectionReducer';
 import { Handle } from '../../components/handle'
 import { selectionReducer } from '../../helpers/selectionReducer';
+import { zoomReducer } from '../../helpers/zoomReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
 import { getDatabase, ref, onValue } from "@firebase/database";
@@ -15,27 +15,44 @@ import { CopyToClipboard } from '../../components/copytoclipboard';
 import { OutPut } from '../../components/output';
 import { ZoomTimeline } from '../../components/timeline';
 import { DrawZoomDates } from '../../components/drawDates';
-export const timeLineClass = "h-12 m-1 mb-3 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-10 m-1 mb-3 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+import { ZoomSelect } from '../../components/zoomSelect';
+import { Now } from '../../components/now';
+export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-10 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+import Moment from 'moment';
+import { extendMoment } from 'moment-range';
 
 
 
 export default function Home() {
+    const moment = extendMoment(Moment);
+
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
     const user = useAuth()
     const db = getDatabase();
+    const zoomWindow = 6
+    const start = moment().subtract(2, "days")
+    const end =  moment().add(2, "days")
+    const center = moment.range(start.clone(),end.clone()).center()
+    const zoomStart = center.clone().subtract(zoomWindow,"hours")
+    const zoomEnd = center.clone().add(zoomWindow,"hours")
+    
 
     const timelineContainerRef = useRef(0)
 
     const [zoomTimeline, setZoomTimeline] = useReducer(
-        timeLineReducer,
+        zoomReducer,
         {
-            start: moment().subtract(1, "days"),
-            end: moment().add(1, "days"),
-            pixelWidth: 0
+            start: start,
+            end: end,
+            zoomStart:zoomStart,
+            zoomEnd:zoomEnd,
+            pixelWidth: 0,
+            zoomWindow:zoomWindow
         }
     )
+
 
 
 
@@ -54,6 +71,12 @@ export default function Home() {
             end: moment().add(1, "hours")
         },
     )
+
+    const newTimeLine = {
+        start:zoomTimeline.zoomStart,
+        end:zoomTimeline.zoomEnd,
+        pixelWidth:zoomTimeline.pixelWidth
+    }
 
     useEffect(() => {
         setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
@@ -77,7 +100,6 @@ export default function Home() {
     let sessionUserNames
 
 
-
     if (sessionUsers && user) {
         let usersList = Object.keys(sessionUsers)
 
@@ -94,7 +116,7 @@ export default function Home() {
 
             if (item != user.uid) {
                 return (
-                    <TimeLinePassive control={setTimeLine} key={item} timeLine={timeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                    <TimeLinePassive control={setTimeLine} key={item} timeLine={newTimeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
                 )
             }
 
@@ -122,9 +144,11 @@ export default function Home() {
                                 <DrawZoomDates timeLine={zoomTimeline}>
                                     
                                 </DrawZoomDates>
+                                <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline}/>
+                                <Now timeLine={zoomTimeline} scale={10} />
                             </ZoomTimeline>
 
-                            <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={timeLine} />
+                            <TimelineActive control={setTimeLine} isSelected={isSelected} setSelected={setSelected} timeLine={newTimeLine} />
                             {passiveTimelines}
 
                         </div>

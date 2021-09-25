@@ -1,10 +1,10 @@
 import { getPosition } from '../helpers/getPosition'
 import moment from "moment"
 
-export function Now({ timeLine }) {
+export function Now({ timeLine,scale }) {
 
-    const leftPosition = getPosition(moment().subtract(1, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
-    const rightPosition = getPosition(moment().add(1, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const leftPosition = getPosition(moment().subtract(1*scale, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
+    const rightPosition = getPosition(moment().add(1*scale, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
 
 
