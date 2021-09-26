@@ -3,7 +3,7 @@ import { PositionElement } from "./positionElement"
 import moment, { Moment } from "moment";
 import { useDrag } from '../hooks/useDrag'
 
-const zoomStyle = " cursor-pointer border-2 border-gray-500 h-full z-50 rounded-lg  w-full absolute text-center z-10  leading-10 disable-select "
+const zoomStyle = " cursor-pointer border border-gray-500 h-full z-50 rounded-lg  w-full absolute text-center z-10  leading-10 disable-select "
 
 
 

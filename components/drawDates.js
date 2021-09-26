@@ -28,12 +28,10 @@ export function DrawZoomDates({ timeLine, children }) {
         return (
             <PositionElement start={date.start} end={date.end} timeLine={timeLine}>
                 <div className="h-full  flex flex-col justify-center items-center   border-r-2 border-gray-500 ">
-                    <span className="w-max text-base">
-                        {date.start.clone().format("MMMM Do")}
+                    <span className="w-max text-sm">
+                        {date.start.clone().format("MMMM, Do")}
                     </span>
-                    <div className="text-xs w-max">
-                        {date.start.clone().format("dddd")}
-                    </div>
+                    
                 </div>
             </PositionElement>
         )
@@ -55,10 +53,10 @@ function DrawDate({ date, timeLine }) {
     return (
         <React.Fragment>
             <div style={{ left: leftPosition, width: width, zIndex: 100 }} className=" disable-select text-sm absolute">
-                {date.start.clone().format("ddd")}
+                {date.start.clone().format("ddd").toLowerCase()}
             </div>
             <div style={{ left: leftPosition, width: width, zIndex: 100 }} className="text-center text-sm  absolute disable-select">
-                {date.start.clone().format("MMMM Do")}
+                {date.start.clone().format("MMM, D")}
             </div>
         </React.Fragment>
     )

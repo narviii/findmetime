@@ -4,10 +4,10 @@ import moment from 'moment';
 
 
 export function selectionReducer(state, action) {
-  
+
   const timeOffset = getTimeFromOffset(action.offset, action.timeline.start, action.timeline.end, action.timeline.pixelWidth)
 
-  const timePosition = getTimeFromOffset((action.clientX - action.timeline.domRect.left-6), action.timeline.start, action.timeline.end, action.timeline.domRect.width)
+  const timePosition = getTimeFromOffset((action.clientX - action.timeline.domRect.left), action.timeline.start, action.timeline.end, action.timeline.domRect.width)
   if (action.type === "isDragging" && action.id != "setSelection") return {
     ...state,
     originStart: state.start.clone(),
@@ -16,19 +16,18 @@ export function selectionReducer(state, action) {
 
   if (action.type === "isDragging" && action.id === "setSelection") return {
     ...state,
-    start:action.timeline.start.clone().add(timePosition-0.5,"hours"),
-    end:action.timeline.start.clone().add(timePosition+0.5,"hours")
-}
-  
-  
-  if (action.type === 'set'){
+    originStart: action.timeline.start.clone().add(timePosition, "hours"),
+    originEnd: action.timeline.start.clone().add(timePosition, "hours")
+  }
+
+  if (action.type === 'set') {
     return {
       ...state,
-      start:action.start,
-      end:action.end
+      start: action.start,
+      end: action.end
     }
   }
-  
+
 
   if (action.type === "translate") {
     switch (action.id) {
@@ -51,12 +50,21 @@ export function selectionReducer(state, action) {
           ...state,
           end: state.originEnd.clone().add(timeOffset, "hours")
         }
-      case "setSelection" :
-        return{
-          ...state,
-          start:action.timeline.start.clone().add(timePosition-0.5,"hours"),
-          end:action.timeline.start.clone().add(timePosition+0.5,"hours")
+      case "setSelection":
+        if (action.timeline.start.clone().add(timePosition, "hours").isAfter(state.originStart.clone())) {
+          return {
+            ...state,
+            start: state.originStart.clone(),
+            end: action.timeline.start.clone().add(timePosition, "hours")
+          }
+        } else {
+          return {
+            ...state,
+            start: action.timeline.start.clone().add(timePosition, "hours"),
+            end: state.originStart.clone()
+          }
         }
+
 
     }
 
@@ -95,15 +103,15 @@ export function timeLineReducer(state, action) {
         const newStart = state.originStart.clone().subtract(scaleFactor, "hours")
         const newEnd = state.originEnd.clone().add(scaleFactor, "hours")
         const timeLineDurationHours = moment.duration(state.originEnd.clone().subtract(state.originStart.clone())).asHours()
-        
-        if ((timeLineDurationHours+2*scaleFactor)>30){
-          scaleFactor=(30 - timeLineDurationHours)/2
-        } else if ((timeLineDurationHours+2*scaleFactor)<6){
-          scaleFactor=(6- timeLineDurationHours)/2
+
+        if ((timeLineDurationHours + 2 * scaleFactor) > 30) {
+          scaleFactor = (30 - timeLineDurationHours) / 2
+        } else if ((timeLineDurationHours + 2 * scaleFactor) < 6) {
+          scaleFactor = (6 - timeLineDurationHours) / 2
         }
 
 
-        
+
 
         return {
           ...state,

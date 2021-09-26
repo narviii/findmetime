@@ -3,8 +3,9 @@ import { useEffect, useState } from "react"
 import { timeLineClass } from "../pages/session"
 import { useRouter } from 'next/router'
 import { getAuth } from '@firebase/auth';
+import moment from 'moment';
 
-const nameElemClass = " flex flex-col  justify-center "
+const nameElemClass = "grid grid-cols-3"
 
 
 export function UserName({ uid }) {
@@ -13,6 +14,7 @@ export function UserName({ uid }) {
     const auth = getAuth()
     const [displayName, setDisplayName] = useState("")
     const [tz, setTz] = useState("")
+    const [isSelected, setSelected] = useState("")
 
     useEffect(() => {
         if (auth.currentUser) {
@@ -20,6 +22,14 @@ export function UserName({ uid }) {
                 if (sn.val()) {
                     setDisplayName(sn.val().displayName)
                     setTz(sn.val().tz)
+                    const data = sn.val()
+                    if (data && data.start && data.end) {
+                        setSelected({
+                            start: moment(sn.val().start),
+                            end: moment(sn.val().end)
+                        })
+                    }
+
 
                 }
 
@@ -31,13 +41,33 @@ export function UserName({ uid }) {
 
 
     return (
-        <div className={timeLineClass + nameElemClass +  "rounded-md"}>
-            <div className="text-center text-xs sm:text-base">
-                {displayName}
+        <div className={timeLineClass + " grid grid-cols-4 rounded-md"}>
+            <div className="col-span-2">
+                <div className=" text-sm text-center">
+                    {displayName}
+                </div>
+                <div className=" text-xxs text-center">
+                    {tz.toLocaleLowerCase()}
+                </div>
             </div>
-            <div className="text-center text-xs">
-                {tz}
+
+            <div className=" text-xs text-center col-span-1">
+                <div>
+                    {isSelected.start ? isSelected.start.format("H:mm a") : null}
+                </div>
+                <div>
+                    {isSelected.start ? isSelected.start.format("MMM, D").toLocaleLowerCase() : null}
+                </div>
             </div>
+            <div className=" text-xs text-center col-span-1">
+                <div>
+                    {isSelected.end ? isSelected.end.format("H:mm a") : null}
+                </div>
+                <div>
+                    {isSelected.end ? isSelected.end.format("MMM, D").toLocaleLowerCase() : null}
+                </div>
+            </div>
+
         </div>
     )
 }

@@ -17,11 +17,12 @@ import { ZoomTimeline } from '../../components/timeline';
 import { DrawZoomDates } from '../../components/drawDates';
 import { ZoomSelect } from '../../components/zoomSelect';
 import { Now } from '../../components/now';
-export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-10 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { updateRecord } from '../../helpers/updateRecord';
 
+export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-8 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
 
 export default function Home() {
@@ -67,7 +68,7 @@ export default function Home() {
     const [isSelected, setSelected] = useReducer(
         selectionReducer,
         {   
-           
+         
         },
     )
 
@@ -77,6 +78,9 @@ export default function Home() {
         pixelWidth:zoomTimeline.pixelWidth,
         domRect:zoomTimeline.domRect
     }
+
+    const updateSelected = updateRecord(isSelected,router.query.id,user)
+    //updateSelected()
 
     useEffect(() => {
         setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
@@ -134,11 +138,11 @@ export default function Home() {
                 <div>
                     <CopyToClipboard />
                     <div className="grid mx-auto grid-cols-10 grid-flow-row grid-rows-2  p-5 max-w-screen-xl">
-                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-2">
+                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-3">
                             <div className={zoomTimeLineClass}>  </div>
                             {sessionUserNames}
                         </div>
-                        <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-8">
+                        <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-7">
                             <ZoomTimeline control={setZoomTimeline}>
                                 <DrawZoomDates timeLine={zoomTimeline}/>
                                 <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline}/>

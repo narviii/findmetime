@@ -1,5 +1,5 @@
 var moment = require('moment-timezone');
-import React, { Children, useEffect } from 'react'
+import React, {useEffect } from 'react'
 import { SelectElement, ShowSelection } from './handle'
 import { DrawMarks } from './drawMarks'
 import { useRouter } from 'next/router'
@@ -10,7 +10,6 @@ import { useCurrentUser } from '../hooks/useCurrentUser'
 import { Now } from '/components/now';
 import { useDrag } from '../hooks/useDrag'
 import { DrawDates } from './drawDates';
-import { getAuth } from '@firebase/auth';
 import { onValue } from "@firebase/database";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
@@ -82,17 +81,20 @@ function OutMark({ timeLine, isSelected }) {
 
 
 
-export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
+export function TimelineActive({ control, isSelected, timeLine,setSelected }) {
     const router = useRouter()
     const db = getDatabase();
     const user = useCurrentUser()
     const handleMouseDown = useDrag(control, "setSelection",timeLine)
 
+    
     useEffect(() => {
         if (user) {
             onValue(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), (snapshot) => {
                 const data = snapshot.val();
-                if (data.start && data.end) {
+                
+                if (data&&data.start && data.end) {
+                    
                     setSelected({
                         type: "set",
                         timeline: timeLine,
@@ -105,19 +107,23 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
             });
         }
     }, [user])
+    
 
     useEffect(async () => {
         if (user) {
-            set(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
+            update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                 tz: moment.tz.guess(),
                 displayName: user.displayName
             });
+            
+            
+           
         }
 
     }, [user])
-    /*
+    
      useEffect(async () => {
-         if (user) {
+         if (user&&(isSelected.start&&isSelected.end)) {
              set(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                  start: isSelected.start.clone().utc().format(),
                  end: isSelected.end.clone().utc().format(),
@@ -127,7 +133,7 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
          }
  
      }, [isSelected, user])
-     */
+     
 
     
 
@@ -139,7 +145,7 @@ export function TimelineActive({ control, isSelected, setSelected, timeLine }) {
             </div>
             <div onMouseDown={handleMouseDown} className={timeLineClass}>
                 <DrawMarks isSelected={isSelected} timeLine={timeLine} />
-                <SelectElement control={setSelected} isSelected={isSelected} timeLine={timeLine} />
+                <SelectElement control={control} isSelected={isSelected} timeLine={timeLine} />
                 <Now timeLine={timeLine} scale={1} />
 
                 <OutMark timeLine={timeLine} isSelected={isSelected} />
