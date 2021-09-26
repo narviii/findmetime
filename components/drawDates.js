@@ -31,6 +31,9 @@ export function DrawZoomDates({ timeLine, children }) {
                     <span className="w-max text-sm">
                         {date.start.clone().format("MMMM, Do")}
                     </span>
+                    <span style={{left:5,top:-4}} className="w-max text-sm lowercase  absolute">
+                        {date.start.clone().format("ddd")}
+                    </span>
                     
                 </div>
             </PositionElement>
@@ -52,7 +55,7 @@ function DrawDate({ date, timeLine }) {
 
     return (
         <React.Fragment>
-            <div style={{ left: leftPosition, width: width, zIndex: 100 }} className=" disable-select text-sm absolute">
+            <div style={{ left: leftPosition+10, width: width, zIndex: 100 }} className=" disable-select text-sm absolute">
                 {date.start.clone().format("ddd").toLowerCase()}
             </div>
             <div style={{ left: leftPosition, width: width, zIndex: 100 }} className="text-center text-sm  absolute disable-select">

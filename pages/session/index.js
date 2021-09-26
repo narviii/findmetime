@@ -22,7 +22,7 @@ import { extendMoment } from 'moment-range';
 import { updateRecord } from '../../helpers/updateRecord';
 
 export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-8 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-8 m-1 mb-5 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 
 
 export default function Home() {
