@@ -5,13 +5,13 @@ import { useState, useEffect } from 'react';
 import { useMounted } from '../hooks/useMounted';
 
 
-const generalMark = " border-l border-r border-gray-500 disable-select flex flex-col justify-center  rounded-md    absolute  text-center h-full   z-20  "
-const hour23 = " rounded-md border-l border-r  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
-const hour00 = " rounded-md border-l border-r  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
 
 
 export function DrawMark({ isSelected, mark, timeLine }) {
-
+    let generalMark = "  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+    let hour23 = "    border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+    let hour00 = "   border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+    
 
     const leftPosition = getPosition(mark.start.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const rightPosition = getPosition(mark.end.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
@@ -21,14 +21,22 @@ export function DrawMark({ isSelected, mark, timeLine }) {
 
     let zoomFlag
 
-    //console.log(moment.duration(timeLine.end.clone().subtract(timeLine.start.clone())).asHours())
 
     if (moment.duration(timeLine.end.clone().subtract(timeLine.start.clone())).asHours()<35) {
         zoomFlag = true
     }else{
         zoomFlag = false
     }
-    //console.log(zoomFlag)
+
+    if (zoomFlag === true){
+        generalMark = generalMark + " border-b border-t rounded-md "
+        hour23 = hour23 + " border-b border-t rounded-md "
+        hour00 = hour00 + " border-b border-t rounded-md "
+    } else{
+        hour23 = hour23 + " border-r border-t border-b rounded-r-md "
+        hour00 = hour00 + " border-l border-t border-b  rounded-l-md "
+        generalMark = generalMark + " border-t border-b "
+    }
 
     if (isSelected.start && isSelected.end) {
         if (mark.start.clone().add(0.5, "hours").isBetween(isSelected.start.clone(), isSelected.end.clone())) {
