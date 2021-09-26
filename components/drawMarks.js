@@ -5,9 +5,9 @@ import { useState, useEffect } from 'react';
 import { useMounted } from '../hooks/useMounted';
 
 
-const generalMark = " border-t border-b border-gray-500 disable-select flex flex-col justify-center     absolute  text-center h-full   z-20  "
-const hour23 = " rounded-r-md border-t border-r border-b border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
-const hour00 = " rounded-l-md border-t border-b border-l border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+const generalMark = " border-l border-r border-gray-500 disable-select flex flex-col justify-center  rounded-md    absolute  text-center h-full   z-20  "
+const hour23 = " rounded-md border-l border-r  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+const hour00 = " rounded-md border-l border-r  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
 
 
 export function DrawMark({ isSelected, mark, timeLine }) {
