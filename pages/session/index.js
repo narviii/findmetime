@@ -137,7 +137,7 @@ export default function Home() {
             <Background>
                 <div>
                     <CopyToClipboard />
-                    <div className="grid mx-auto grid-cols-10 grid-flow-row grid-rows-2  p-5 max-w-screen-xl">
+                    <div className="grid mx-auto grid-cols-10 max-w-screen-xl">
                         <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-3">
                             <div className={zoomTimeLineClass}>  </div>
                             {sessionUserNames}

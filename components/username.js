@@ -42,7 +42,7 @@ export function UserName({ uid }) {
 
     return (
         <div className={timeLineClass + " grid grid-cols-4 rounded-md"}>
-            <div className="col-span-2">
+            <div className="col-span-2 flex flex-col justify-center">
                 <div className=" text-sm text-center">
                     {displayName}
                 </div>
@@ -51,7 +51,7 @@ export function UserName({ uid }) {
                 </div>
             </div>
 
-            <div className=" text-xs text-center col-span-1">
+            <div className=" text-xs text-center col-span-1 flex flex-col justify-center">
                 <div>
                     {isSelected.start ? isSelected.start.format("H:mm a") : null}
                 </div>
@@ -59,7 +59,7 @@ export function UserName({ uid }) {
                     {isSelected.start ? isSelected.start.format("MMM, D").toLocaleLowerCase() : null}
                 </div>
             </div>
-            <div className=" text-xs text-center col-span-1">
+            <div className=" text-xs text-center col-span-1 flex flex-col justify-center">
                 <div>
                     {isSelected.end ? isSelected.end.format("H:mm a") : null}
                 </div>

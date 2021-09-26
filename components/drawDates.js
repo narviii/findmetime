@@ -27,7 +27,7 @@ export function DrawZoomDates({ timeLine, children }) {
     const datesEl = dates.map((date) => {
         return (
             <PositionElement start={date.start} end={date.end} timeLine={timeLine}>
-                <div className="h-full  flex flex-col justify-center items-center   border-r-2 border-gray-500 ">
+                <div className="h-full  flex flex-col justify-center items-center rounded-md   border-l border-r border-gray-500 ">
                     <span className="w-max text-sm">
                         {date.start.clone().format("MMMM, Do")}
                     </span>
@@ -56,7 +56,7 @@ function DrawDate({ date, timeLine }) {
                 {date.start.clone().format("ddd").toLowerCase()}
             </div>
             <div style={{ left: leftPosition, width: width, zIndex: 100 }} className="text-center text-sm  absolute disable-select">
-                {date.start.clone().format("MMM, D")}
+                {date.start.clone().format("MMM, D").toLowerCase()}
             </div>
         </React.Fragment>
     )

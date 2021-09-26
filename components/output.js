@@ -51,10 +51,10 @@ export const OutPut = ({ sessionUsers }) => {
             <div className="mx-auto items-center max-w-screen-xl h-24 grid grid-cols-2 justify-center w-2/5 mt-2 border rounded-md p-4 border-black ">
 
                 <span className="text-center text-sm align">
-                    {intersectRange ? intersectRange.start.format("dddd, MMMM Do YYYY, h:mm a") : "    "}
+                    {intersectRange ? intersectRange.start.format("dddd, MMMM Do, h:mm a") : "    "}
                 </span>
                 <span className="text-center text-sm">
-                    {intersectRange ? intersectRange.end.format("dddd, MMMM Do YYYY, h:mm a") : "   "}
+                    {intersectRange ? intersectRange.end.format("dddd, MMMM Do, h:mm a") : "   "}
                 </span>
             </div>
         </React.Fragment>
