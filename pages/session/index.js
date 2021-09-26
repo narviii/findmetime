@@ -139,7 +139,7 @@ export default function Home() {
                     <CopyToClipboard />
                     <div className="grid mx-auto grid-cols-10 max-w-screen-xl">
                         <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-3">
-                            <div className={zoomTimeLineClass}>  </div>
+                            <div className="h-8 m-1 mb-5 relative rounded-md  overflow-block-clip">  </div>
                             {sessionUserNames}
                         </div>
                         <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-7">

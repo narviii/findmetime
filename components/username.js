@@ -43,7 +43,7 @@ export function UserName({ uid }) {
     return (
         <div className={timeLineClass + " grid grid-cols-5 rounded-md"}>
             <div className="col-span-3 flex flex-col justify-center">
-                <div className=" text-base text-center">
+                <div className=" text-base min-w-min text-center">
                     {displayName}
                 </div>
                 <div className=" text-xxs text-center">
