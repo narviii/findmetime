@@ -124,7 +124,7 @@ export function TimelineActive({ control, isSelected, timeLine,setSelected }) {
     
      useEffect(async () => {
          if (user&&(isSelected.start&&isSelected.end)) {
-             set(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
+             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                  start: isSelected.start.clone().utc().format(),
                  end: isSelected.end.clone().utc().format(),
                  tz: moment.tz.guess(),

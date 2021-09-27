@@ -23,13 +23,6 @@ export default function Home() {
     })
   }
 
-  if (mounted) {
-    router.push({
-      pathname: 'session',
-      query: { id: randomstring.generate() },
-    })
-  }
-
 
 
   return (

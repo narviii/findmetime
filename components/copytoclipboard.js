@@ -27,7 +27,7 @@ export function CopyToClipboard() {
         <React.Fragment>
 
             <div className="mx-auto flex-col justify-center  p-5 max-w-screen-xl">
-                <p className="w-max mx-auto text-xs">
+                <p className="w-max mx-auto text-lg">
                     Send this link to your friends to set up a meeting:
                 </p>
                 <div className="rounded-md mr-2 ml-2 bg-gray-100 text-xs text-center" >

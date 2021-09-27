@@ -4,7 +4,11 @@ import { extendMoment } from 'moment-range';
 
 export function zoomReducer(state, action) {
     const moment = extendMoment(Moment);
-    const timeOffset = getTimeFromOffset(action.offset, state.start, state.end, state.pixelWidth)
+    let timeOffset = getTimeFromOffset(action.offset, state.start, state.end, state.pixelWidth)
+    const minWindow = 2
+    const maxWindow = 30
+    let newZoomWindow
+    let cntr
 
     if (action.type === "isDragging") return {
         ...state,
@@ -39,9 +43,39 @@ export function zoomReducer(state, action) {
                     zoomEnd: center.clone().add(state.zoomWindow, "hours")
 
                 }
-            case "zoomSelect":
-                const newZoomWindow = state.originZoomWindow - timeOffset
-                const cntr = moment.range(state.start.clone(), state.end.clone()).center()
+            case "zoomSelectLeft":
+                
+                
+                if ((state.originZoomWindow - timeOffset) > minWindow && (state.originZoomWindow - timeOffset) < maxWindow) {
+                    newZoomWindow = state.originZoomWindow - timeOffset
+                } else if ((state.originZoomWindow - timeOffset) < minWindow) {
+                    newZoomWindow = minWindow
+
+                } else if ((state.originZoomWindow - timeOffset) > maxWindow) {
+                    newZoomWindow = maxWindow
+                }
+                cntr = moment.range(state.start.clone(), state.end.clone()).center()
+
+                return {
+                    ...state,
+                    zoomWindow: newZoomWindow,
+                    zoomStart: cntr.clone().subtract(state.zoomWindow, "hours"),
+                    zoomEnd: cntr.clone().add(state.zoomWindow, "hours")
+                }
+            case "zoomSelectRight":
+                timeOffset = -timeOffset
+                let newZoomWindow
+                let cntr
+                if ((state.originZoomWindow - timeOffset) > minWindow && (state.originZoomWindow - timeOffset) < maxWindow) {
+                    newZoomWindow = state.originZoomWindow - timeOffset
+                } else if ((state.originZoomWindow - timeOffset) < minWindow) {
+                    newZoomWindow = minWindow
+
+                } else if ((state.originZoomWindow - timeOffset) > maxWindow) {
+                    newZoomWindow = maxWindow
+                }
+                cntr = moment.range(state.start.clone(), state.end.clone()).center()
+
                 return {
                     ...state,
                     zoomWindow: newZoomWindow,
