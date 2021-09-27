@@ -1,5 +1,5 @@
 var moment = require('moment-timezone');
-import React, { useEffect } from 'react'
+import React, {useEffect } from 'react'
 import { SelectElement, ShowSelection } from './handle'
 import { DrawMarks } from './drawMarks'
 import { useRouter } from 'next/router'
@@ -13,7 +13,6 @@ import { DrawDates } from './drawDates';
 import { onValue } from "@firebase/database";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 export function ZoomTimeline({ children, control }) {
@@ -82,37 +81,20 @@ function OutMark({ timeLine, isSelected }) {
 
 
 
-export function TimelineActive({ control, isSelected, timeLine, setSelected }) {
+export function TimelineActive({ control, isSelected, timeLine,setSelected }) {
     const router = useRouter()
     const db = getDatabase();
     const user = useCurrentUser()
-    const handleMouseDown = useDrag(control, "setSelection", timeLine)
-
-    const auth = getAuth();
-
-    /*
-    useEffect(() => {
-        onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log(user.displayName)
-                update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
-                    tz: moment.tz.guess(),
-                    displayName: user.displayName
-                });
-            }
-        })
-    }, [])
-    */
-
-
-
+    const handleMouseDown = useDrag(control, "setSelection",timeLine)
+    
+    
     useEffect(() => {
         if (user) {
             onValue(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), (snapshot) => {
                 const data = snapshot.val();
-
-                if (data && data.start && data.end) {
-
+                
+                if (data&&data.start && data.end) {
+                    
                     setSelected({
                         type: "set",
                         timeline: timeLine,
@@ -125,36 +107,37 @@ export function TimelineActive({ control, isSelected, timeLine, setSelected }) {
             });
         }
     }, [user])
-
-    /*
-        useEffect(async () => {
-            if (user) {
-                update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
-                    tz: moment.tz.guess(),
-                    displayName: user.displayName
-                });
-                
-                
-               
-            }
     
-        }, [user])
-        */
-
+/*
     useEffect(async () => {
-        if (user && (isSelected.start && isSelected.end)) {
+        console.log(user.displayName)
+        if (user) {
             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
-                start: isSelected.start.clone().utc().format(),
-                end: isSelected.end.clone().utc().format(),
                 tz: moment.tz.guess(),
                 displayName: user.displayName
             });
+            
+            
+           
         }
 
-    }, [isSelected, user])
+    }, [user])
+    */
+    
+     useEffect(async () => {
+         if (user&&(isSelected.start&&isSelected.end)) {
+             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
+                 start: isSelected.start.clone().utc().format(),
+                 end: isSelected.end.clone().utc().format(),
+                 tz: moment.tz.guess(),
+                 displayName: user.displayName
+             });
+         }
+ 
+     }, [isSelected, user])
+     
 
-
-
+    
 
     return (
 
