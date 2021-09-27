@@ -11,7 +11,7 @@ export const OutPut = ({ sessionUsers }) => {
     const ranges = []
     let intersectRange
 
-    if (sessionUsers&&Object.keys(sessionUsers).length>1) {
+    if (sessionUsers && Object.keys(sessionUsers).length > 1) {
         for (const key in sessionUsers) {
             const range = moment.range(moment(sessionUsers[key].start), moment(sessionUsers[key].end))
             ranges.push(range)
@@ -19,7 +19,7 @@ export const OutPut = ({ sessionUsers }) => {
     }
 
     let i = 0
-    if (sessionUsers&&Object.keys(sessionUsers).length>1) {
+    if (sessionUsers && Object.keys(sessionUsers).length > 1) {
         do {
             if (i == 0) {
                 intersectRange = ranges[i].intersect(ranges[i + 1])
@@ -46,16 +46,42 @@ export const OutPut = ({ sessionUsers }) => {
     return (
         <React.Fragment>
             <p className="text-center text-sm mt-4">
-                All parties are available on:
+                All parties are available
             </p>
-            <div className="mx-auto items-center max-w-screen-xl h-24 grid grid-cols-2 justify-center w-2/5 mt-2 border rounded-md p-4 border-black ">
+            <div className="mx-auto items-center max-w-screen-sm h-32 grid grid-cols-2 justify-center w-2/5 mt-2 border rounded-md p-4 border-black ">
 
-                <span className="text-center text-sm align">
-                    {intersectRange ? intersectRange.start.format("dddd, MMMM Do, h:mm a") : "    "}
-                </span>
-                <span className="text-center text-sm">
-                    {intersectRange ? intersectRange.end.format("dddd, MMMM Do, h:mm a") : "   "}
-                </span>
+                <div>
+                    <div className="text-center text-sm align mb-2   ">
+                        {intersectRange ? "From:" : "    "}
+                    </div>
+                    <div className="text-center text-sm align font-bold ">
+                        {intersectRange ? intersectRange.start.format("h:mm a") : "    "}
+                    </div>
+                    <div className="text-center text-sm align">
+                        {intersectRange ? intersectRange.start.format("MMMM Do") : "    "}
+                    </div>
+                    <div className="text-center text-sm align">
+                        {intersectRange ? intersectRange.start.format("dddd") : "    "}
+                    </div>
+
+                </div>
+
+
+                <div>
+                    <div className="text-center text-sm align mb-2  ">
+                        {intersectRange ? "To:" : "    "}
+                    </div>
+                    <div className="text-center font-bold text-sm">
+                        {intersectRange ? intersectRange.end.format("h:mm a") : "   "}
+                    </div>
+                    <div className="text-center text-sm">
+                        {intersectRange ? intersectRange.end.format("MMMM Do") : "   "}
+                    </div>
+                    <div className="text-center text-sm">
+                        {intersectRange ? intersectRange.end.format("dddd") : "   "}
+                    </div>
+
+                </div>
             </div>
         </React.Fragment>
     )
