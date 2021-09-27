@@ -35,8 +35,8 @@ export function TimeLinePassive({ control, isSelectedStart, tz, isSelectedEnd, t
         end: isSelectedEnd
     }
     return (
-        <div>
-            <div className=" relative overflow-block-clip -translate-y-5 ">
+        <React.Fragment>
+            <div className=" relative -translate-y-5 ">
                 <DrawDates timeLine={timeLine} tz={tz} />
             </div>
             <div onMouseDown={handleMouseDown} className={timeLineClass}>
@@ -47,7 +47,7 @@ export function TimeLinePassive({ control, isSelectedStart, tz, isSelectedEnd, t
 
             </div>
 
-        </div>
+        </React.Fragment>
     )
 }
 
@@ -141,8 +141,8 @@ export function TimelineActive({ control, isSelected, timeLine,setSelected }) {
 
     return (
 
-        <div>
-            <div className=" relative overflow-block-clip -translate-y-5 ">
+        <React.Fragment>
+            <div className=" relative -translate-y-5  ">
                 <DrawDates timeLine={timeLine} />
             </div>
             <div onMouseDown={handleMouseDown} className={timeLineClass}>
@@ -152,7 +152,7 @@ export function TimelineActive({ control, isSelected, timeLine,setSelected }) {
 
                 <OutMark timeLine={timeLine} isSelected={isSelected} />
             </div>
-        </div>
+        </React.Fragment>
 
     )
 }
