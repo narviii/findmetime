@@ -7,8 +7,8 @@ import { faCopy } from '@fortawesome/free-solid-svg-icons'
 
 export function CopyToClipboard() {
     const [curPath, setCurPath] = useState("")
-    const [color,setColor] = useState("text-black")
-    
+    const [color, setColor] = useState("text-black")
+
     useEffect(() => {
         setCurPath(window.location.href)
 
@@ -27,10 +27,28 @@ export function CopyToClipboard() {
         <React.Fragment>
 
             <div className="mx-auto flex-col justify-center  p-5 max-w-screen-xl">
-                <p className="w-max mx-auto text-lg">
-                    Send this link to your friends to set up a meeting:
+                <h1 className="w-max mx-auto text-2xl">
+                    Schedulling Biggle
+                </h1>
+                <p className="w-max mx-auto text-base m-3">
+                    How this works?
                 </p>
-                <div className="rounded-md mr-2 ml-2 bg-gray-100 text-xs text-center" >
+                <ol className="mx-auto text-center text-sm m-3">
+                    <p >
+                        1. Send the link bellow to your friend, collegue or collegues..
+                    </p>
+                    <p>
+                        2. Select the time interval you are available for a call or a meeting in your.
+                    </p>
+                    <p>
+                        3. See in realtime what intervals everybody selected in realtime.
+                    </p>
+                    <p>
+                        4. See if any intersection of intervals in the window bellow.
+                    </p>
+                </ol>
+
+                <div className="rounded-md mr-2 ml-2 bg-gray-100 text-xs font-bold text-center" >
                     <span className={color + " mr-2 transition-all"}>
                         {curPath}
                     </span>
