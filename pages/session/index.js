@@ -20,6 +20,7 @@ import { Now } from '../../components/now';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { updateRecord } from '../../helpers/updateRecord';
+var randomstring = require("randomstring");
 
 export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
 export const zoomTimeLineClass = "h-8 m-1 mb-5 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
@@ -34,11 +35,14 @@ export default function Home() {
     const db = getDatabase();
     const zoomWindow = 6
     const start = moment().subtract(2, "days")
-    const end =  moment().add(2, "days")
-    const center = moment.range(start.clone(),end.clone()).center()
-    const zoomStart = center.clone().subtract(zoomWindow,"hours")
-    const zoomEnd = center.clone().add(zoomWindow,"hours")
-    
+    const end = moment().add(2, "days")
+    const center = moment.range(start.clone(), end.clone()).center()
+    const zoomStart = center.clone().subtract(zoomWindow, "hours")
+    const zoomEnd = center.clone().add(zoomWindow, "hours")
+
+    const handleClick =  (e) => {
+        window.location.href=`session?id=${randomstring.generate()}`
+    }
 
     const timelineContainerRef = useRef(0)
 
@@ -47,10 +51,10 @@ export default function Home() {
         {
             start: start,
             end: end,
-            zoomStart:zoomStart,
-            zoomEnd:zoomEnd,
+            zoomStart: zoomStart,
+            zoomEnd: zoomEnd,
             pixelWidth: 0,
-            zoomWindow:zoomWindow
+            zoomWindow: zoomWindow
         }
     )
 
@@ -67,20 +71,18 @@ export default function Home() {
 
     const [isSelected, setSelected] = useReducer(
         selectionReducer,
-        {   
-         
+        {
+
         },
     )
 
     const newTimeLine = {
-        start:zoomTimeline.zoomStart,
-        end:zoomTimeline.zoomEnd,
-        pixelWidth:zoomTimeline.pixelWidth,
-        domRect:zoomTimeline.domRect
+        start: zoomTimeline.zoomStart,
+        end: zoomTimeline.zoomEnd,
+        pixelWidth: zoomTimeline.pixelWidth,
+        domRect: zoomTimeline.domRect
     }
 
-    const updateSelected = updateRecord(isSelected,router.query.id,user)
-    //updateSelected()
 
     useEffect(() => {
         setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
@@ -144,8 +146,8 @@ export default function Home() {
                         </div>
                         <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-7">
                             <ZoomTimeline control={setZoomTimeline}>
-                                <DrawZoomDates timeLine={zoomTimeline}/>
-                                <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline}/>
+                                <DrawZoomDates timeLine={zoomTimeline} />
+                                <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
                                 <Now timeLine={zoomTimeline} scale={10} />
                             </ZoomTimeline>
 
@@ -158,6 +160,9 @@ export default function Home() {
 
                 </div>
                 <OutPut sessionUsers={sessionUsers} />
+                <button onClick={handleClick} className="hover:border-gray-500 border-gray-100 border-2 rounded-md p-3 cursor-pointer bg-gray-200  mx-auto block text-center mt-6 ">
+                    Reset session
+                </button>
 
             </Background>
         </React.Fragment>
