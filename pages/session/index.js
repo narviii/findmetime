@@ -19,11 +19,10 @@ import { ZoomSelect } from '../../components/zoomSelect';
 import { Now } from '../../components/now';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
-import { updateRecord } from '../../helpers/updateRecord';
 var randomstring = require("randomstring");
 
-export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-8 m-1 mb-5 relative rounded-md  overflow-block-clip border-l border-r border-gray-500"
+export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-8 m-1 mb-5 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
 
 
 export default function Home() {
@@ -137,11 +136,11 @@ export default function Home() {
     return (
         <React.Fragment>
             <Background>
-                <div>
+                <div >
                     <CopyToClipboard />
-                    <div className="grid mx-auto grid-cols-10 max-w-screen-xl">
-                        <div className=" bg-gray-100  w-full mx-auto block rounded-lg col-span-3">
-                            <div className="h-8 m-1 mb-5 relative rounded-md  overflow-block-clip">  </div>
+                    <div className="grid mx-auto grid-cols-10  max-w-screen-xl ">
+                        <div className=" bg-gray-100  w-full mx-auto block  rounded-lg col-span-3">
+                            <div className={zoomTimeLineClass}>  </div>
                             {sessionUserNames}
                         </div>
                         <div ref={timelineContainerRef} className="bg-gray-100  w-full mx-auto block rounded-lg col-span-7">

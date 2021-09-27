@@ -35,6 +35,9 @@
       transform: scale(-1.2,1.2) 
     }
     .overflow-block-clip{
-      overflow-x:clip;
+      overflow-x:hidden;
+    }
+    .fixWidth{
+      width:1280px
     }
   }
