@@ -9,8 +9,8 @@ import { useMounted } from '../hooks/useMounted';
 
 export function DrawMark({ isSelected, mark, timeLine }) {
     let generalMark = "  border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
-    let hour23 = "    border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
-    let hour00 = "   border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+    let hour23 = " border-r   border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
+    let hour00 = " border-l   border-gray-500 disable-select flex flex-col justify-center    absolute  text-center h-full   z-20  "
     
 
     const leftPosition = getPosition(mark.start.clone(), timeLine.start, timeLine.end, timeLine.pixelWidth)
