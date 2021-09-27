@@ -20,6 +20,11 @@ export function DrawMark({ isSelected, mark, timeLine }) {
     let textColor = ""
 
     let zoomFlag
+    let hoverFlag = true
+
+    if (isSelected.start&&isSelected.end){
+        hoverFlag = false
+    }
 
 
     if (moment.duration(timeLine.end.clone().subtract(timeLine.start.clone())).asHours()<35) {
@@ -38,16 +43,22 @@ export function DrawMark({ isSelected, mark, timeLine }) {
         generalMark = generalMark + " border-t border-b "
     }
 
+    if (hoverFlag==true){
+        generalMark = generalMark + " hover:border-2 hover:border-red-500"
+        hour23 = hour23 + " hover:border-2 hover:border-red-500 "
+        hour00 = hour00 + " hover:border-2 hover:border-red-500 "
+    }
+
     if (isSelected.start && isSelected.end) {
         if (mark.start.clone().add(0.5, "hours").isBetween(isSelected.start.clone(), isSelected.end.clone())) {
-            textColor = " text-red-500"
+            textColor = " text-red-500 "
         }
     }
 
     if (mark.start.clone().startOf("hour").hour() > 6 && mark.start.clone().startOf("hour").hour() < 21) {
         bgColor = ""
     } else {
-        bgColor = "bg-gray-300"
+        bgColor = " bg-gray-300 "
     }
 
 
@@ -101,6 +112,7 @@ export function DrawMarks({ isSelected, timeLine, tz }) {
     const mounted = useMounted()
 
     let marks = []
+    let smallMarks = []
 
     const start = timeLine.start.clone().subtract(1, "hours")
     const end = timeLine.end.clone().add(1, "hours")
@@ -122,6 +134,8 @@ export function DrawMarks({ isSelected, timeLine, tz }) {
 
         } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
     }
+
+    
 
     const marksEl = marks.map((item) => <DrawMark isSelected={isSelected} key={item.start.clone().format("dddd, MMMM Do YYYY, h:mm:ss a")} timeLine={timeLine} mark={item} />)
 
