@@ -14,6 +14,10 @@ import { onValue } from "@firebase/database";
 import { UserName } from './username';
 import { OutMark } from './outmark';
 
+const gridContainerClass  = "md:grid md:grid-cols-11"
+const gridUserNameClass = "md:col-span-3"
+const gridTimeLineClass = "md:col-span-8 "
+
 
 export function ZoomTimeline({ children, control }) {
     const handleMouseDown = useDrag(control, "translateTimeline")
@@ -36,14 +40,14 @@ export function TimeLinePassive({ control, isSelectedStart, tz, isSelectedEnd, t
     }
     return (
         <React.Fragment>
-            <div className="grid grid-cols-11">
-                <div className="col-span-3">
+            <div className={gridContainerClass}>
+                <div className={gridUserNameClass}>
                     <div className=" relative h-4 overflow-hidden  ">
                         
                     </div>
                     <UserName uid={uid} tz={tz} />
                 </div>
-                <div className="col-span-8">
+                <div className={gridTimeLineClass}>
                     <div className=" relative h-4 overflow-hidden  ">
                         <DrawDates timeLine={timeLine} tz={tz} />
                     </div>
@@ -133,15 +137,15 @@ export function TimelineActive({ control, isSelected, timeLine, setZoomTimeline 
     return (
 
         <React.Fragment>
-            <div className="grid grid-cols-11">
+            <div className={gridContainerClass}>
 
-                <div className="col-span-3">
+                <div className={gridUserNameClass}>
                     <div className=" h-4">
 
                     </div>
                     {user ? <UserName uid={user.uid} tz={user.tz} /> : null}
                 </div>
-                <div className="col-span-8 ">
+                <div className={gridTimeLineClass}>
                     <div className=" relative h-4 overflow-hidden  ">
                         <DrawDates timeLine={timeLine} />
                     </div>

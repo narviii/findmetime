@@ -137,11 +137,11 @@ export default function Home() {
                     <div className="grid mx-auto   max-w-screen-xl ">
 
                         <div className="bg-gray-100 overflow-block-clip  w-full mx-auto block rounded-lg col-span-7">
-                            <div className="grid grid-cols-11">
-                                <div className="col-span-3">
+                            <div className="md:grid md:grid-cols-11">
+                                <div className="md:col-span-3 hidden md:block">
 
                                 </div>
-                                <div className="col-span-8 ">
+                                <div className="md:col-span-8 ">
                                     <ZoomTimeline control={setZoomTimeline}>
                                         <DrawZoomDates timeLine={zoomTimeline} />
                                         <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
