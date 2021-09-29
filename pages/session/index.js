@@ -5,12 +5,10 @@ import { useAuth } from '../../hooks/useAuth'
 import { useSessionUsers } from '../../hooks/useSessionUsers';
 import { TimelineActive, TimeLinePassive } from '../../components/timeline';
 import { timeLineReducer } from '../../helpers/selectionReducer';
-import { Handle } from '../../components/handle'
 import { selectionReducer } from '../../helpers/selectionReducer';
 import { zoomReducer } from '../../helpers/zoomReducer';
 import { removeItemOnce } from '../../helpers/removeItemOnce';
 import { UserName } from '../../components/username';
-import { getDatabase, ref, onValue } from "@firebase/database";
 import { CopyToClipboard } from '../../components/copytoclipboard';
 import { OutPut } from '../../components/output';
 import { ZoomTimeline } from '../../components/timeline';
@@ -21,8 +19,8 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 var randomstring = require("randomstring");
 
-export const timeLineClass = "h-12 m-1 mb-6 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-8 m-1 mb-5 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
+export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-8 m-1  relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
 
 
 export default function Home() {
@@ -31,7 +29,7 @@ export default function Home() {
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
     const user = useAuth()
-    const db = getDatabase();
+
     const zoomWindow = 6
     const start = moment().subtract(2, "days")
     const end = moment().add(2, "days")
@@ -39,11 +37,10 @@ export default function Home() {
     const zoomStart = center.clone().subtract(zoomWindow, "hours")
     const zoomEnd = center.clone().add(zoomWindow, "hours")
 
-    const handleClick =  (e) => {
-        window.location.href=`session?id=${randomstring.generate()}`
+    const handleClick = () => {
+        window.location.href = `session?id=${randomstring.generate()}`
     }
 
-    const timelineContainerRef = useRef(0)
 
     const [zoomTimeline, setZoomTimeline] = useReducer(
         zoomReducer,
@@ -82,29 +79,29 @@ export default function Home() {
         domRect: zoomTimeline.domRect
     }
 
-
-    useEffect(() => {
-        setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-        setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-        setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-
-
-        window.addEventListener('resize', function () {
+    /*
+        useEffect(() => {
             setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
             setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
             setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-
-        });
-
-        return window.removeEventListener('resize', function () {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-            setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-            setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-
-        });
-    }, [])
-
-
+    
+    
+            window.addEventListener('resize', function () {
+                setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+                setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+                setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
+    
+            });
+    
+            return window.removeEventListener('resize', function () {
+                setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+                setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
+                setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
+    
+            });
+        }, [])
+    
+    */
 
 
     let passiveTimelines
@@ -124,10 +121,9 @@ export default function Home() {
         })
 
         passiveTimelines = usersList.map((item) => {
-
             if (item != user.uid) {
                 return (
-                    <TimeLinePassive control={setTimeLine} key={item} timeLine={newTimeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
+                    <TimeLinePassive control={setTimeLine} key={item} uid={item} timeLine={newTimeLine} tz={sessionUsers[item].tz} isSelectedStart={moment(sessionUsers[item].start)} isSelectedEnd={moment(sessionUsers[item].end)} />
                 )
             }
 
@@ -138,19 +134,23 @@ export default function Home() {
             <Background>
                 <div >
                     <CopyToClipboard />
-                    <div className="grid mx-auto grid-cols-10  max-w-screen-xl ">
-                        <div className=" bg-gray-100  w-full mx-auto block  rounded-lg col-span-3">
-                            <div className="h-8 m-1 mb-5 relative rounded-md   border-gray-500">  </div>
-                            {sessionUserNames}
-                        </div>
-                        <div ref={timelineContainerRef} className="bg-gray-100 overflow-block-clip  w-full mx-auto block rounded-lg col-span-7">
-                            <ZoomTimeline control={setZoomTimeline}>
-                                <DrawZoomDates timeLine={zoomTimeline} />
-                                <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
-                                <Now timeLine={zoomTimeline} scale={10} />
-                            </ZoomTimeline>
+                    <div className="grid mx-auto   max-w-screen-xl ">
 
-                            <TimelineActive control={setSelected} isSelected={isSelected} setSelected={setSelected} timeLine={newTimeLine} />
+                        <div className="bg-gray-100 overflow-block-clip  w-full mx-auto block rounded-lg col-span-7">
+                            <div className="grid grid-cols-11">
+                                <div className="col-span-3">
+
+                                </div>
+                                <div className="col-span-8 ">
+                                    <ZoomTimeline control={setZoomTimeline}>
+                                        <DrawZoomDates timeLine={zoomTimeline} />
+                                        <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
+                                        <Now timeLine={zoomTimeline} scale={10} />
+                                    </ZoomTimeline>
+                                </div>
+                            </div>
+
+                            <TimelineActive control={setSelected} isSelected={isSelected} setZoomTimeline={setZoomTimeline} timeLine={newTimeLine} />
                             {passiveTimelines}
 
                         </div>

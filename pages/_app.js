@@ -1,23 +1,20 @@
 import 'tailwindcss/tailwind.css'
 import '../css/extend.css'
+import { React } from 'react';
 import { getAuth, signInAnonymously, updateProfile } from "firebase/auth";
-import { get, getDatabase, ref, child, set,update } from '@firebase/database';
+import {  getDatabase, ref,update } from '@firebase/database';
 import { initializeApp } from "firebase/app";
 import { firebaseConfig } from './/..//helpers/firebase'
-const { uniqueNamesGenerator, adjectives, colors, animals } = require('unique-names-generator');
+const { uniqueNamesGenerator, adjectives, animals } = require('unique-names-generator');
 import { useRouter } from 'next/router'
 var moment = require('moment-timezone');
 import {useMounted} from '../hooks/useMounted'
 
 
 
-async function signIn() {
-  const router = useRouter()
-
+async function signIn(router) {
   const db = getDatabase();
   const auth = getAuth();
-
-  
     const user = (await signInAnonymously(auth)).user
     if (user.displayName === null) {
       updateProfile(auth.currentUser, { displayName: uniqueNamesGenerator({ dictionaries: [adjectives, animals], separator: ' ' }) }).then(
@@ -37,10 +34,11 @@ async function signIn() {
 
 
 function MyApp({ Component, pageProps }) {
-  const firebaseApp = initializeApp(firebaseConfig);
+  const router = useRouter()
+  initializeApp(firebaseConfig);
   const mounted = useMounted()
   if (mounted) {
-    signIn()
+    signIn(router)
 
   }
   return <Component {...pageProps} />

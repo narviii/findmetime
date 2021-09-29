@@ -1,20 +1,80 @@
 import { getDatabase, ref, onValue } from '@firebase/database';
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import { timeLineClass } from "../pages/session"
 import { useRouter } from 'next/router'
 import { getAuth } from '@firebase/auth';
+// eslint-disable-next-line no-undef
 var moment = require('moment-timezone');
 import { useAuth } from '../hooks/useAuth';
 
-const nameElemClass = "grid grid-cols-3"
 
 function isEven(value) {
-	if (value%2 == 0)
-		return true;
-	else
-		return false;
+    if (value % 2 == 0)
+        return true;
+    else
+        return false;
 }
 
+function DisplaySelected({ isSelected,tz }) {
+    const [curTime, setCurTime] = useState("")
+    const user = useAuth()
+
+
+    if (isSelected.start && isSelected.end) {
+        return (
+            <div className="col-span-4 grid grid-cols-11">
+                <div className=" text-xs text-center col-span-5  lowercase flex flex-col justify-center">
+                    <div>
+                        {isSelected.start.format("h:mm a")}
+                    </div>
+                    <div>
+                        {isSelected.start.format("MMM, D")}
+                    </div>
+                </div>
+                <div className=" text-center col-span-1    flex flex-col justify-center">
+                    <div>
+                        {" - "}
+                    </div>
+                </div>
+                <div className=" text-xs text-center col-span-5  lowercase flex flex-col justify-center">
+                    <div>
+                        {isSelected.end.format("h:m a")}
+                    </div>
+                    <div>
+                        {isSelected.end.format("MMM, D")}
+                    </div>
+                </div>
+            </div>
+        )
+    } else {
+        if (user&&tz) {
+
+            setInterval(() => {
+                const curHour = moment().tz(tz).format("h")
+                const curMin = moment().tz(tz).format("mm a")
+                let blinker
+                if (isEven(moment().second())) {
+                    blinker = ":"
+                } else {
+                    blinker = " "
+                }
+
+                setCurTime(curHour + blinker + curMin)
+            }, 500)
+
+
+        }
+
+
+        return (
+            <div className="col-span-4 flex justify-center items-center text-xxs  font-bold ">
+                {curTime}
+            </div>
+        )
+    }
+
+
+}
 
 export function UserName({ uid }) {
     const router = useRouter()
@@ -23,8 +83,6 @@ export function UserName({ uid }) {
     const [displayName, setDisplayName] = useState("")
     const [tz, setTz] = useState("")
     const [isSelected, setSelected] = useState("")
-    const user = useAuth()
-    const [curTime,setCurTime] = useState()
 
     useEffect(() => {
         if (auth.currentUser) {
@@ -48,24 +106,7 @@ export function UserName({ uid }) {
 
     }, [auth])
 
-   
-    if (user) {
-        
-        setInterval(()=>{
-            const curHour = moment().tz(tz).format("h")
-            const curMin = moment().tz(tz).format("mm a")
-            let blinker
-            if (isEven(moment().second())){
-                blinker=":"
-            }else{
-                blinker=" "
-            }
-            
-            setCurTime(curHour+blinker+curMin)
-        },500)
 
-        
-    }
 
 
 
@@ -85,35 +126,11 @@ export function UserName({ uid }) {
                     <div className=" text-xxs ml-6  ">
                         {tz.toLocaleLowerCase()}
                     </div>
-                    <div className=" text-xxs  font-bold mr-8">
-                        {curTime}
-                    </div>
+
                 </div>
             </div>
 
-            <div className="col-span-4 grid grid-cols-11">
-                <div className=" text-xs text-center col-span-5  lowercase flex flex-col justify-center">
-                    <div>
-                        {isSelected.start ? isSelected.start.format("h:mm a") : null}
-                    </div>
-                    <div>
-                        {isSelected.start ? isSelected.start.format("MMM, D") : null}
-                    </div>
-                </div>
-                <div className=" text-center col-span-1    flex flex-col justify-center">
-                    <div>
-                    {isSelected.end ? " - " : null}
-                    </div>
-                </div>
-                <div className=" text-xs text-center col-span-5  lowercase flex flex-col justify-center">
-                    <div>
-                        {isSelected.end ? isSelected.end.format("h:m a") : null}
-                    </div>
-                    <div>
-                        {isSelected.end ? isSelected.end.format("MMM, D") : null}
-                    </div>
-                </div>
-            </div>
+            <DisplaySelected isSelected={isSelected} tz={tz} />
 
         </div>
     )
