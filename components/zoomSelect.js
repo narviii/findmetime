@@ -15,17 +15,17 @@ export function ZoomSelect({ children, timeLine,control }) {
     return (
         <React.Fragment>
             <PositionElement start={timeLine.zoomStart} end={timeLine.zoomEnd} timeLine={timeLine}>
-                <div className={zoomStyle}>
+                <div className={zoomStyle + ""}>
+                    
+                </div>
+            </PositionElement>
+            <PositionElement start={timeLine.zoomStart} end={timeLine.zoomStart.clone().add(3, "hours")} timeLine={timeLine}>
+                <div onMouseDown={handleMouseDownLeft} className={zoomStyle + "bg-gray-500 scale-125 "}>
 
                 </div>
             </PositionElement>
-            <PositionElement start={timeLine.zoomStart} end={timeLine.zoomStart.clone().add(1, "hours")} timeLine={timeLine}>
-                <div onMouseDown={handleMouseDownLeft} className={zoomStyle + "bg-gray-500"}>
-
-                </div>
-            </PositionElement>
-            <PositionElement end={timeLine.zoomEnd} start={timeLine.zoomEnd.clone().subtract(1, "hours")} timeLine={timeLine}>
-                <div onMouseDown={handleMouseDownRight} className={zoomStyle + "bg-gray-500"}>
+            <PositionElement end={timeLine.zoomEnd} start={timeLine.zoomEnd.clone().subtract(3, "hours")} timeLine={timeLine}>
+                <div onMouseDown={handleMouseDownRight} className={zoomStyle + " bg-gray-500 scale-125 "}>
 
                 </div>
             </PositionElement>

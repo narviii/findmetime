@@ -17,6 +17,7 @@ import { ZoomSelect } from '../../components/zoomSelect';
 import { Now } from '../../components/now';
 import Moment from 'moment';
 import { extendMoment } from 'moment-range';
+import { NavBar } from '../../components/navbar';
 var randomstring = require("randomstring");
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -31,8 +32,8 @@ export default function Home() {
     const user = useAuth()
 
     const zoomWindow = 6
-    const start = moment().subtract(2, "days")
-    const end = moment().add(2, "days")
+    const start = moment().subtract(5, "days")
+    const end = moment().add(5, "days")
     const center = moment.range(start.clone(), end.clone()).center()
     const zoomStart = center.clone().subtract(zoomWindow, "hours")
     const zoomEnd = center.clone().add(zoomWindow, "hours")
@@ -79,33 +80,9 @@ export default function Home() {
         domRect: zoomTimeline.domRect
     }
 
-    /*
-        useEffect(() => {
-            setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-            setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-            setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-    
-    
-            window.addEventListener('resize', function () {
-                setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-                setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-                setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-    
-            });
-    
-            return window.removeEventListener('resize', function () {
-                setTimeLine({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-                setZoomTimeline({ type: 'set_width', width: timelineContainerRef.current ? timelineContainerRef.current.offsetWidth : 0 })
-                setZoomTimeline({ type: 'set_domRect', domRect: timelineContainerRef.current ? timelineContainerRef.current.getBoundingClientRect() : 0 })
-    
-            });
-        }, [])
-    
-    */
 
 
     let passiveTimelines
-    let sessionUserNames
 
 
     if (sessionUsers && user) {
@@ -114,11 +91,7 @@ export default function Home() {
         usersList = removeItemOnce(usersList, user.uid) //make sure active user is allways first elemement of array
         usersList.unshift(user.uid)
 
-        sessionUserNames = usersList.map((item) => {
-            return (
-                <UserName key={item + "user"} uid={item} />
-            )
-        })
+
 
         passiveTimelines = usersList.map((item) => {
             if (item != user.uid) {
@@ -132,6 +105,9 @@ export default function Home() {
     return (
         <React.Fragment>
             <Background>
+                <NavBar />
+
+
                 <div >
                     <CopyToClipboard />
                     <div className="grid mx-auto   max-w-screen-xl ">
@@ -144,9 +120,12 @@ export default function Home() {
                                 <div className="md:col-span-8 ">
                                     <ZoomTimeline control={setZoomTimeline}>
                                         <DrawZoomDates timeLine={zoomTimeline} />
-                                        <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
                                         <Now timeLine={zoomTimeline} scale={10} />
                                     </ZoomTimeline>
+                                    <div className="h-4  relative rounded-md    border-gray-500">
+                                        <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
+                                    </div>
+
                                 </div>
                             </div>
 

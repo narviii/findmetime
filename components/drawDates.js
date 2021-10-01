@@ -27,11 +27,11 @@ export function DrawZoomDates({ timeLine, children }) {
     const datesEl = dates.map((date) => {
         return (
             <PositionElement start={date.start} end={date.end} timeLine={timeLine}>
-                <div className="h-full  flex flex-col justify-center items-center rounded-md   border-l border-r border-gray-500 ">
-                    <span className="w-max text-sm">
-                        {date.start.clone().format("MMMM, Do")}
+                <div className="h-full  flex flex-col justify-around items-center rounded-md   border-l border-r border-gray-500 ">
+                    <span className="w-max leading-none text-sm">
+                        {date.start.clone().format("D")}
                     </span>
-                    <span style={{left:5,top:-4}} className="w-max text-sm lowercase  absolute">
+                    <span  className="w-max leading-none text-xs lowercase  ">
                         {date.start.clone().format("ddd")}
                     </span>
                     
