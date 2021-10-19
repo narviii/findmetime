@@ -17,8 +17,10 @@
     "next": "latest",
     "randomstring": "^1.2.1",
     "react": "^17.0.2",
+    "react-avatar": "^3.10.0",
     "react-dom": "^17.0.2",
     "react-firebase-hooks": "^3.0.4",
+    "react-google-button": "^0.7.2",
     "unique-names-generator": "^4.6.0"
   },
   "devDependencies": {

@@ -22,7 +22,7 @@ function DisplaySelected({ isSelected,tz }) {
 
     if (isSelected.start && isSelected.end) {
         return (
-            <div className="col-span-4 grid grid-cols-11">
+            <div className="col-span-5 grid grid-cols-11">
                 <div className=" text-xs text-center col-span-5  lowercase flex flex-col justify-center">
                     <div>
                         {isSelected.start.format("h:mm a")}
@@ -118,7 +118,7 @@ export function UserName({ uid }) {
 
     return (
         <div className={timeLineClass + " grid grid-cols-12 rounded-md"}>
-            <div className="col-span-8 ">
+            <div className="col-span-7 ">
                 <div className=" text-base min-w-min text-left ml-6">
                     {displayName}
                 </div>

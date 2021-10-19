@@ -19,6 +19,9 @@ import Moment from 'moment';
 import { extendMoment } from 'moment-range';
 import { NavBar } from '../../components/navbar';
 var randomstring = require("randomstring");
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { getAuth } from '@firebase/auth';
+import { useMounted } from '../../hooks/useMounted';
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
 export const zoomTimeLineClass = "h-8 m-1  relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -26,10 +29,9 @@ export const zoomTimeLineClass = "h-8 m-1  relative rounded-md  overflow-block-c
 
 export default function Home() {
     const moment = extendMoment(Moment);
-
+    const auth = getAuth()
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
-    const user = useAuth()
 
     const zoomWindow = 6
     const start = moment().subtract(5, "days")
@@ -37,6 +39,11 @@ export default function Home() {
     const center = moment.range(start.clone(), end.clone()).center()
     const zoomStart = center.clone().subtract(zoomWindow, "hours")
     const zoomEnd = center.clone().add(zoomWindow, "hours")
+
+    const [user, loading, error] = useAuthState(auth);
+    const isMounted = useMounted()
+
+
 
     const handleClick = () => {
         window.location.href = `session?id=${randomstring.generate()}`
@@ -101,6 +108,11 @@ export default function Home() {
             }
 
         })
+    }
+
+    if (!user && isMounted) {
+        router.replace('/')
+        return null
     }
     return (
         <React.Fragment>

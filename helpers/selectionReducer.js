@@ -3,7 +3,7 @@ import moment from 'moment';
 
 
 function nearestMinutes(interval, someMoment) {
-  
+
   const roundedMinutes = Math.round(someMoment.clone().minute() / interval) * interval;
   return someMoment.clone().minute(roundedMinutes).second(0);
 }
@@ -25,8 +25,10 @@ export function selectionReducer(state, action) {
 
   if (action.type === "isDragging" && action.id === "setSelection") return {
     ...state,
-    originStart: nearestMinutes(15,action.timeline.start.clone().add(timePosition, "hours")),
-    originEnd: nearestMinutes(15,action.timeline.start.clone().add(timePosition, "hours"))
+    originStart: nearestMinutes(15, action.timeline.start.clone().add(timePosition, "hours")),
+    originEnd: nearestMinutes(15, action.timeline.start.clone().add(timePosition, "hours")),
+    start: nearestMinutes(15, action.timeline.start.clone().add(timePosition, "hours")),
+    end: nearestMinutes(15, action.timeline.start.clone().add(timePosition+0.5, "hours")),
   }
 
   if (action.type === 'set') {
@@ -43,33 +45,33 @@ export function selectionReducer(state, action) {
       case "center":
         return {
           ...state,
-          start:nearestMinutes(15,state.originStart.clone().add(timeOffset, "hours")) ,
-          end: nearestMinutes(15,state.originEnd.clone().add(timeOffset, "hours"))
+          start: nearestMinutes(15, state.originStart.clone().add(timeOffset, "hours")),
+          end: nearestMinutes(15, state.originEnd.clone().add(timeOffset, "hours"))
         }
 
       case "left":
         if (state.end.clone().isBefore(state.originStart.clone().add(timeOffset + 0.1, "hours"))) return state
         return {
           ...state,
-          start: nearestMinutes(15,state.originStart.clone().add(timeOffset, "hours"))
+          start: nearestMinutes(15, state.originStart.clone().add(timeOffset, "hours"))
         }
       case "right":
         if (state.start.clone().isAfter(state.originEnd.clone().add(timeOffset - 0.1, "hours"))) return state
         return {
           ...state,
-          end: nearestMinutes(15,state.originEnd.clone().add(timeOffset, "hours"))
+          end: nearestMinutes(15, state.originEnd.clone().add(timeOffset, "hours"))
         }
       case "setSelection":
         if (action.timeline.start.clone().add(timePosition, "hours").isAfter(state.originStart.clone())) {
           return {
             ...state,
             start: state.originStart.clone(),
-            end: nearestMinutes(15,action.timeline.start.clone().add(timePosition, "hours"))
+            end: nearestMinutes(15, action.timeline.start.clone().add(timePosition, "hours"))
           }
         } else {
           return {
             ...state,
-            start: nearestMinutes(15,action.timeline.start.clone().add(timePosition, "hours")),
+            start: nearestMinutes(15, action.timeline.start.clone().add(timePosition, "hours")),
             end: state.originStart.clone()
           }
         }

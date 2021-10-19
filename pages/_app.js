@@ -12,7 +12,7 @@ import { useMounted } from '../hooks/useMounted'
 import { getRedirectResult, GoogleAuthProvider } from "firebase/auth";
 
 
-
+/*
 async function signIn(router) {
   const db = getDatabase();
   const auth = getAuth();
@@ -32,7 +32,7 @@ async function signIn(router) {
     });
   }
 }
-
+*/
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter()
@@ -42,12 +42,13 @@ function MyApp({ Component, pageProps }) {
   
 
  
-
+/*
 
   if (mounted && !auth.currentUser) {
     signIn(router)
 
   }
+*/
 
 
   return <Component {...pageProps} />

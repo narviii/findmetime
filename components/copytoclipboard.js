@@ -27,28 +27,16 @@ export function CopyToClipboard() {
         <React.Fragment>
 
             <div className="mx-auto flex-col justify-center  p-5 max-w-screen-xl">
-                <h1 className="w-max mx-auto text-2xl">
-                    Schedulling Biggle
+                <h1 className="w-max mx-auto text-2xl mb-3">
+                    Find Me Time
                 </h1>
-                <div className="hidden md:block">
-                    <p className="w-max mx-auto text-base m-3">
-                        How this works?
-                    </p>
-                    <ol className="mx-auto text-center text-sm m-3">
-                        <p >
-                            1. Send the link bellow to your friend, collegue or collegues..
+                
+                    
+                        <p className="text-center mb-3" >
+                            Send the link bellow to your friend, collegue or collegues:
                         </p>
-                        <p>
-                            2. Select the time interval you are available for a call or a meeting in your.
-                        </p>
-                        <p>
-                            3. See in realtime what intervals everybody selected in realtime.
-                        </p>
-                        <p>
-                            4. See if any intersection of intervals in the window bellow.
-                        </p>
-                    </ol>
-                </div>
+                        
+               
 
                 <div className="rounded-md mr-2 ml-2 bg-gray-100 text-xs font-bold text-center" >
                     <span className={color + " mr-2 transition-all"}>
