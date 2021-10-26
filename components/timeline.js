@@ -122,18 +122,18 @@ export function TimelineActive({ control, isSelected, timeLine, setZoomTimeline 
 
 
         useEffect(async () => {
-        console.log(router.query.id)
+        
         if (!user||!mounted) return
         
         if (isSelected.start && isSelected.end) {
-            console.log('aaa')
+            
             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                 start: isSelected.start.clone().utc().format(),
                 end: isSelected.end.clone().utc().format(),
                 
             });
         } else {
-            console.log('bbb')
+            
             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                 
                 tz: moment.tz.guess(),

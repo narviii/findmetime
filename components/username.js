@@ -93,7 +93,7 @@ export function UserName({ uid }) {
                     const data = sn.val()
                    
                     if (data && data.start && data.end) {
-                        console.log(data)
+                        
                         setSelected({
                             start: moment(data.start),
                             end: moment(data.end)

@@ -20,8 +20,10 @@ import { extendMoment } from 'moment-range';
 import { NavBar } from '../../components/navbar';
 var randomstring = require("randomstring");
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from '@firebase/auth';
+import { getAuth,signInWithRedirect } from '@firebase/auth';
 import { useMounted } from '../../hooks/useMounted';
+import { GoogleAuthProvider } from "firebase/auth";
+
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
 export const zoomTimeLineClass = "h-8 m-1  relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -46,7 +48,7 @@ export default function Home() {
 
 
     const handleClick = () => {
-       
+
         window.location.href = `session?id=${randomstring.generate()}`
     }
 
@@ -110,12 +112,13 @@ export default function Home() {
 
         })
     }
-    /*
-    if (!user && isMounted) {
-        router.push('/')
+
+    if (!loading && !user && isMounted) {
+        const provider = new GoogleAuthProvider();
+        signInWithRedirect(auth, provider);
         return null
     }
-    */
+
     return (
         <React.Fragment>
             <Background>
