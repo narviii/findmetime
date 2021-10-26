@@ -13,6 +13,7 @@ import { DrawDates } from './drawDates';
 import { onValue } from "@firebase/database";
 import { UserName } from './username';
 import { OutMark } from './outmark';
+import { useMounted } from '../hooks/useMounted';
 
 const gridContainerClass  = "md:grid md:grid-cols-11"
 const gridUserNameClass = "md:col-span-3"
@@ -77,6 +78,7 @@ export function TimelineActive({ control, isSelected, timeLine, setZoomTimeline 
     const user = useCurrentUser()
     const handleMouseDown = useDrag(control, "setSelection", timeLine)
     const timelineContainerRef = useRef(0)
+    const mounted = useMounted()
 
 
     useEffect(() => {
@@ -119,11 +121,21 @@ export function TimelineActive({ control, isSelected, timeLine, setZoomTimeline 
 
 
 
-    useEffect(async () => {
-        if (user && (isSelected.start && isSelected.end)) {
+        useEffect(async () => {
+        console.log(router.query.id)
+        if (!user||!mounted) return
+        
+        if (isSelected.start && isSelected.end) {
+            console.log('aaa')
             update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
                 start: isSelected.start.clone().utc().format(),
                 end: isSelected.end.clone().utc().format(),
+                
+            });
+        } else {
+            console.log('bbb')
+            update(ref(db, "sessions/" + router.query.id + "/users/" + user.uid), {
+                
                 tz: moment.tz.guess(),
                 displayName: user.displayName
             });
@@ -133,7 +145,7 @@ export function TimelineActive({ control, isSelected, timeLine, setZoomTimeline 
 
 
 
-
+    
     return (
 
         <React.Fragment>

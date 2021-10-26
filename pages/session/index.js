@@ -46,6 +46,7 @@ export default function Home() {
 
 
     const handleClick = () => {
+       
         window.location.href = `session?id=${randomstring.generate()}`
     }
 
@@ -109,11 +110,12 @@ export default function Home() {
 
         })
     }
-
+    /*
     if (!user && isMounted) {
-        router.replace('/')
+        router.push('/')
         return null
     }
+    */
     return (
         <React.Fragment>
             <Background>
