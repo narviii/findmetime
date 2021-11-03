@@ -113,6 +113,8 @@ export default function Home() {
         })
     }
 
+    if (loading) return null
+
     if (!loading && !user && isMounted) {
         const provider = new GoogleAuthProvider();
         signInWithRedirect(auth, provider);
