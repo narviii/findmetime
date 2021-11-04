@@ -14,8 +14,9 @@ function Avatar() {
     if (loading) return null
 
     if (!user) return null
+    
     const initials = user.displayName.split(" ")[0][0] + user.displayName.split(" ")[1][0]
-
+    console.log(user.photoURL)
     if (user.photoURL != "") {
         img = <img className="rounded-full h-12 w-12 leading-none" src={user.photoURL} />
     } else {
