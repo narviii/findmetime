@@ -23,6 +23,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { getAuth,signInWithRedirect } from '@firebase/auth';
 import { useMounted } from '../../hooks/useMounted';
 import { GoogleAuthProvider } from "firebase/auth";
+import { DrawSelectMarks } from '../../components/drawSelectMarks';
 
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -93,8 +94,7 @@ export default function Home() {
 
 
     let passiveTimelines
-
-
+    
     if (sessionUsers && user) {
         let usersList = Object.keys(sessionUsers)
 
@@ -141,11 +141,16 @@ export default function Home() {
                                         <DrawZoomDates timeLine={zoomTimeline} />
                                         <Now timeLine={zoomTimeline} scale={10} />
                                     </ZoomTimeline>
+                                    <div className="h-3 overflow-block-clip  relative ">
+                                        <DrawSelectMarks timeLine={zoomTimeline} isSelected={isSelected} sessionUsers={sessionUsers}/>
+                                    </div>
                                     <div className="h-4  relative rounded-md    border-gray-500">
                                         <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
                                     </div>
+                                    
 
                                 </div>
+
                             </div>
 
                             <TimelineActive control={setSelected} isSelected={isSelected} setZoomTimeline={setZoomTimeline} timeLine={newTimeLine} />

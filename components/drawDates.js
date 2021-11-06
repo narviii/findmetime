@@ -26,7 +26,7 @@ export function DrawZoomDates({ timeLine, children }) {
     }
     const datesEl = dates.map((date) => {
         return (
-            <PositionElement start={date.start} end={date.end} timeLine={timeLine}>
+            <PositionElement key={date.start+date.end} start={date.start} end={date.end} timeLine={timeLine}>
                 <div className="h-full  flex flex-col justify-around items-center rounded-md   border-l border-r border-gray-500 ">
                     <span className="w-max leading-none text-sm">
                         {date.start.clone().format("D")}
@@ -90,7 +90,7 @@ export function DrawDates({ timeLine, tz }) {
         } while (moment.duration(end.clone().subtract(start.clone())).asHours() > 0)
     }
 
-    const datesEl = dates.map((date) => <DrawDate date={date} timeLine={timeLine} />)
+    const datesEl = dates.map((date) => <DrawDate date={date} key={date.start+date.end} timeLine={timeLine} />)
 
 
     return (

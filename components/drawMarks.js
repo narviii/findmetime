@@ -3,6 +3,8 @@ var moment = require('moment-timezone');
 import { getPosition } from '../helpers/getPosition'
 import { useState, useEffect } from 'react';
 import { useMounted } from '../hooks/useMounted';
+var randomstring = require("randomstring");
+
 
 
 
@@ -137,7 +139,7 @@ export function DrawMarks({ isSelected, timeLine, tz }) {
 
     
 
-    const marksEl = marks.map((item) => <DrawMark isSelected={isSelected} key={item.start.clone().format("dddd, MMMM Do YYYY, h:mm:ss a")} timeLine={timeLine} mark={item} />)
+    const marksEl = marks.map((item) => <DrawMark isSelected={isSelected} key={item.start+item.end} timeLine={timeLine} mark={item} />)
 
 
     return (
