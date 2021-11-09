@@ -17,9 +17,9 @@ import { useMounted } from '../hooks/useMounted';
 var randomstring = require("randomstring");
 
 
-const gridContainerClass  = "md:grid md:grid-cols-11"
-const gridUserNameClass = "md:col-span-3"
-const gridTimeLineClass = "md:col-span-8 "
+const gridContainerClass  = "grid grid-cols-11"
+const gridUserNameClass = "col-span-3"
+const gridTimeLineClass = "col-span-8 "
 
 
 export function ZoomTimeline({ children, control }) {
