@@ -20,10 +20,12 @@ import { extendMoment } from 'moment-range';
 import { NavBar } from '../../components/navbar';
 var randomstring = require("randomstring");
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth,signInWithRedirect } from '@firebase/auth';
+import { getAuth, signInWithRedirect } from '@firebase/auth';
 import { useMounted } from '../../hooks/useMounted';
 import { GoogleAuthProvider } from "firebase/auth";
 import { DrawSelectMarks } from '../../components/drawSelectMarks';
+import { getAnalytics, logEvent } from "firebase/analytics";
+
 
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -35,6 +37,8 @@ export default function Home() {
     const auth = getAuth()
     const router = useRouter()
     const sessionUsers = useSessionUsers(router.query.id)
+    let analytics
+
 
     const zoomWindow = 6
     const start = moment().subtract(5, "days")
@@ -45,6 +49,7 @@ export default function Home() {
 
     const [user, loading, error] = useAuthState(auth);
     const isMounted = useMounted()
+    if (isMounted) analytics = getAnalytics();
 
 
 
@@ -94,7 +99,7 @@ export default function Home() {
 
 
     let passiveTimelines
-    
+
     if (sessionUsers && user) {
         let usersList = Object.keys(sessionUsers)
 
@@ -121,6 +126,14 @@ export default function Home() {
         return null
     }
 
+    if (isMounted) {
+        logEvent(analytics, 'screen_view', {
+            firebase_screen: window.location.pathname,
+           
+        });
+    } 
+
+
     return (
         <React.Fragment>
             <Background>
@@ -142,12 +155,12 @@ export default function Home() {
                                         <Now timeLine={zoomTimeline} scale={10} />
                                     </ZoomTimeline>
                                     <div className="h-3 overflow-block-clip  relative ">
-                                        <DrawSelectMarks timeLine={zoomTimeline} isSelected={isSelected} sessionUsers={sessionUsers}/>
+                                        <DrawSelectMarks timeLine={zoomTimeline} isSelected={isSelected} sessionUsers={sessionUsers} />
                                     </div>
                                     <div className="h-4  relative rounded-md    border-gray-500">
                                         <ZoomSelect timeLine={zoomTimeline} control={setZoomTimeline} />
                                     </div>
-                                    
+
 
                                 </div>
 

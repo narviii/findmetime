@@ -2,6 +2,9 @@
 import { initializeApp } from "firebase/app";
 import { getFirestore } from "firebase/firestore"
 import { getDatabase, ref, set } from "firebase/database";
+import { getAnalytics } from "firebase/analytics";
+
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -18,9 +21,11 @@ export const firebaseConfig = {
   databaseURL: "https://findmetime-928be-default-rtdb.firebaseio.com/"
 };
 
+let analytics
+
 // Initialize Firebase
 const firebaseApp = initializeApp(firebaseConfig);
-//const analytics = getAnalytics(firebaseApp);
+//analytics = getAnalytics(firebaseApp);
 export const dbFireStore = getFirestore();
 
 

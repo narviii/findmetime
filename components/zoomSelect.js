@@ -9,13 +9,15 @@ const zoomStyle = " cursor-pointer border border-gray-500 h-full z-50 rounded-lg
 
 export function ZoomSelect({ children, timeLine,control }) {
     const handleMouseDownLeft = useDrag(control, "zoomSelectLeft", timeLine)
+    const handleMouseDownCenter = useDrag(control, "translateTimeline", timeLine)
+
     const handleMouseDownRight = useDrag(control, "zoomSelectRight", timeLine)
 
 
     return (
         <React.Fragment>
             <PositionElement start={timeLine.zoomStart} end={timeLine.zoomEnd} timeLine={timeLine}>
-                <div className={zoomStyle + ""}>
+                <div onMouseDown={handleMouseDownCenter} className={zoomStyle + ""}>
                     
                 </div>
             </PositionElement>
