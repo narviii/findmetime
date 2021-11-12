@@ -91,12 +91,11 @@ export function UserName({ uid }) {
                     setDisplayName(sn.val().displayName)
                     setTz(sn.val().tz)
                     const data = sn.val()
-                   
                     if (data && data.start && data.end) {
-                        
+                       
                         setSelected({
-                            start: moment(data.start),
-                            end: moment(data.end)
+                            start: moment(data.start).tz(sn.val().tz),
+                            end: moment(data.end).tz(sn.val().tz)
                         })
                     }
 
