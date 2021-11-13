@@ -1,6 +1,6 @@
 import { React, useState, useRef, useEffect } from "react";
 import { getAuth,signOut, GoogleAuthProvider, linkWithRedirect, linkWithPopup, getRedirectResult } from "firebase/auth";
-
+import router, { useRouter } from 'next/router'
 import { useAuthState } from 'react-firebase-hooks/auth';
 
 
@@ -8,6 +8,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 function Avatar() {
     const auth = getAuth();
     const [user, loading, error] = useAuthState(auth);
+    const router = useRouter()
     let img
    
 
@@ -35,11 +36,10 @@ function Avatar() {
 }
 
 function Menu() {
-
     function signOutFb() {
         const auth = getAuth();
+        router.push("/")
         signOut(auth)
-        window.location.reload(true);
     }
     return (
         <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5">

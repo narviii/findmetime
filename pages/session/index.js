@@ -25,7 +25,7 @@ import { useMounted } from '../../hooks/useMounted';
 import { GoogleAuthProvider } from "firebase/auth";
 import { DrawSelectMarks } from '../../components/drawSelectMarks';
 import { getAnalytics, logEvent } from "firebase/analytics";
-
+import { Footer } from '../../components/footer';
 
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
@@ -129,9 +129,9 @@ export default function Home() {
     if (isMounted) {
         logEvent(analytics, 'screen_view', {
             firebase_screen: window.location.pathname,
-           
+
         });
-    } 
+    }
 
 
     return (
@@ -179,7 +179,9 @@ export default function Home() {
                     Reset session
                 </button>
 
+                <Footer />
             </Background>
+
         </React.Fragment>
     )
 }

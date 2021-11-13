@@ -11,7 +11,7 @@ import GoogleButton from 'react-google-button'
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { GoogleAuthProvider } from "firebase/auth";
 import { NavBar } from '../components/navbar';
-
+import { Footer } from '../components/footer';
 
 
 
@@ -64,18 +64,18 @@ export default function Home() {
               Find me time
             </h1>
             <div className="flex flex-col justify-center">
-              <ol className="mx-auto  text-sm m-3">
-                <p >
-                  1. Send the link bellow to your friend, collegue or collegues..
+              <ol className="mx-auto  text m-3">
+                <p className="m-2">
+                A multiplayer timeline for scheduling meetings and calls across different time zones.
                 </p>
-                <p>
-                  2. Select the time interval you are available for a call or a meeting in your.
+                <p className="m-2">
+                Start a session and send a link to a friend(or friends) or colleague(or colleagues).
                 </p>
-                <p>
-                  3. See in realtime what intervals everybody selected in realtime.
+                <p className="m-2">
+                Select a time interval in your timeline, and wait for him(or them) to select his, all happens in real time.
                 </p>
-                <p>
-                  4. See if any intersection of intervals in the window bellow.
+                <p className="m-2">
+                See, if there is a match.
                 </p>
               </ol>
             </div>
@@ -86,6 +86,8 @@ export default function Home() {
             />
           </div>
         </div>
+        <Footer />
+
       </div>
     </React.Fragment>
   )
