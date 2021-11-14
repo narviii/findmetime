@@ -7,8 +7,10 @@ export function Now({ timeLine,scale }) {
     const rightPosition = getPosition(moment().add(1*scale, "minutes"), timeLine.start, timeLine.end, timeLine.pixelWidth)
     const width = rightPosition - leftPosition
 
+    const center = getPosition(moment(), timeLine.start, timeLine.end, timeLine.pixelWidth)
+
 
     return (
-        <div style={{ left: leftPosition, width: width }} className=" disable-select  w-1  absolute  text-center h-full leading-10  rounded-sm z-50 bg-red-500 "/>
+        <div style={{ left: center-2, width: 4 }} className=" disable-select   absolute   h-full leading-10  rounded-md z-50 bg-red-500 "/>
     )
 }

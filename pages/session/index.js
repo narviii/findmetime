@@ -29,7 +29,7 @@ import { Footer } from '../../components/footer';
 
 
 export const timeLineClass = "h-12 m-1 relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
-export const zoomTimeLineClass = "h-8 m-1  relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
+export const zoomTimeLineClass = "h-10 m-1  relative rounded-md  overflow-block-clip overflow-clip border-l border-r border-gray-500"
 
 
 export default function Home() {
